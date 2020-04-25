@@ -131,7 +131,7 @@ class System:
                 if LolLevel >= 2:
                     for thisSatellite in thisOrbit.dicoSatellites.keys():
                         if thisOrbit.dicoSatellites[thisSatellite] is not 0:
-                            print("   |   |-- {} {}".format(thisOrbit.dicoSatellites[thisSatellite],thisSatellite))
+                            print("   |   |.. {} {}".format(thisOrbit.dicoSatellites[thisSatellite],thisSatellite))
 
 
 
