@@ -68,7 +68,6 @@ class System:
     def addAllStar(self):
         """
         Ajoute toutes les :self._nbStar: étoiles dans le system
-        :param nbStar: nombre d'étoiles du systeme
         """
         for i in np.arange(self._nbStar):
             if i==0:    IsPrimary = True
@@ -80,9 +79,9 @@ class System:
         self.Star.append(Star(Auto=Auto,IsPrimary=IsPrimary))
         self.nbStar = len(self.Star)
 
-    def delStar(self,Star):
+    def delStar(self,star):
         """Supprime une l'étoile :Star: """
-        self.Star.remove(Star)
+        self.Star.remove(star)
         self.nbStar = len(self.Star)
 
     def refresh_nbOrbit(self):
@@ -216,7 +215,7 @@ class Star:
         """
         if orbit == int():
             try:
-                orbit = self.Orbit[orbit]
+                self.Orbit[orbit]
             except:
                 print("Impossible de recuperer cette orbite")
         else:
@@ -368,6 +367,11 @@ class Planet:
         self.IsHabitable = False
         self.IsGasGiant = False
         self.AtmosphereComposition = "Unknowed"
+        self.Size = float()
+        self.SizeInEarthRadius = float()  # Affiche la taille de la planete en fonction de celle de la Terre
+        self.Surface = float()
+        self.Gravity = float()
+        self.AtmDensity = float()
         if auto:    self.Autogen()
 
     def __repr__(self):
