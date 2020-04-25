@@ -1,0 +1,8 @@
+A0,A5,F0,F5,G0,G5,K0,K5,M0,M5
+Star,Star,Star,Star,Star,Star,Star,Star,Star,Star
+NaN,NaN,Inner,Inner,Inner,Inner,Inner,Habitable,Outer,Outer
+NaN,NaN,Inner,Inner,Inner,Inner,Habitable,Outer,Outer,Outer
+NaN,NaN,Inner,Inner,Inner,Habitable,Outer,Outer,Outer,Outer
+NaN,NaN,Inner,Inner,Habitable,Outer,Outer,Outer,Outer,Outer
+NaN,NaN,Habitable,Habitable,Outer,Outer,Outer,Outer,Outer,Outer
+NaN,NaN,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer

@@ -4,6 +4,7 @@ Regroupe toutes les classes d'objets et les fonctions pour le fonctionnement de 
 from SystemRepository import *
 from SystemFunc import *
 import random as rd
+import numpy as np
 import MyPack.Utilities as utils
 from MyPack.Convert import *
 from System import *
@@ -58,7 +59,7 @@ class System:
             thisStar = rd.choice(self.Star)  # Choisi parmis les etoiles du systeme
             thisStar.addOrbit(IsRogue=True)       # Ajoute l'orbit Rogue a l'etoile choisis
 
-    def determineType(self,nbStar):
+    def determineType(self):
         if   self._nbStar == 1: self.Type = "Solitary"
         elif self._nbStar == 2: self.Type = "Binary"
         elif self._nbStar == 3: self.Type = "Ternary"

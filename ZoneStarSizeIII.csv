@@ -1,0 +1,15 @@
+B0,B5,A0,A5,F0,F5,G0,G5,K0,K5,M0,M5,R0,R5
+Star,Star,Star,Star,Star,Star,Star,Star,Star,Star,Star,Star,Star,Star
+TooHot,TooHot,TooHot,Inner,Inner,Inner,Inner,Inner,Inner,Inner,TooHot,Star,Star,Star
+TooHot,TooHot,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Star,Star,Star
+TooHot,TooHot,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Star,Star,Star
+TooHot,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Inner,Star,Star
+TooHot,Inner,Inner,Inner,Habitable,Habitable,Habitable,Habitable,Inner,Inner,Inner,Inner,Habitable,Outer
+TooHot,Inner,Habitable,Habitable,Outer,Outer,Outer,Outer,Habitable,Habitable,Habitable,Habitable,Outer,Outer
+Inner,Inner,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer
+Inner,Inner,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer
+Inner,Inner,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer
+Inner,Habitable,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer
+Inner,Habitable,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer
+Habitable,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer
+Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer,Outer
