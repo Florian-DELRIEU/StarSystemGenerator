@@ -118,7 +118,7 @@ class System:
         except:
             print("This planet don't exist")
 
-    def Show(self):
+    def Show(self,LolLevel=2):
         print(self)
         for thisStar in self.Star:
             print("  "+str(thisStar))
@@ -128,6 +128,11 @@ class System:
                                          "Desert", "Oceanic", "Glaciated"]:                              dot = "H"
                 else:                                                                                    dot = "+"
                 print("   |----- {} {}".format(dot,str(thisOrbit)))
+                if LolLevel >= 2:
+                    for thisSatellite in thisOrbit.dicoSatellites.keys():
+                        if thisOrbit.dicoSatellites[thisSatellite] is not 0:
+                            print("   |   |-- {} {}".format(thisOrbit.dicoSatellites[thisSatellite],thisSatellite))
+
 
 
 ########################################################################################################################
