@@ -93,7 +93,7 @@ def roll(RangeDown,RangeUp):
     return result
 
 
-def rollchoicedico(dico=dict(),rolltuple=tuple(),modifiers=int()):
+def rollchoicedico(dico,rolltuple=tuple(),modifiers=int()):
     output = str()
     cur = roll(rolltuple[0],rolltuple[1]) + modifiers
     if cur < rolltuple[0]: cur = rolltuple[0]
@@ -101,7 +101,7 @@ def rollchoicedico(dico=dict(),rolltuple=tuple(),modifiers=int()):
     for k in dico.keys():
         Rangedown = dico[k][0]
         Rangeup = dico[k][1]
-        if cur >= Rangedown and cur <= Rangeup:
+        if Rangedown <= cur <= Rangeup:
             output = k
     return output
 

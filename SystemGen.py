@@ -55,11 +55,18 @@ class System:
         self.createRogue(self.nbRogueOrbit)
 
     def createRogue(self,nbRogue):
+        """
+        Ajoute une planète "Rogue" a l'une des étoiles du système
+        :param nbRogue: Nombre de planètes à ajouter
+        """
         for i in np.arange(nbRogue):
             thisStar = rd.choice(self.Star)  # Choisi parmis les etoiles du systeme
             thisStar.addOrbit(IsRogue=True)       # Ajoute l'orbit Rogue a l'etoile choisis
 
     def determineType(self):
+        """
+        Fonction permettant de définir le type de systeme en fonction de :_nbOrbit:
+        """
         if   self._nbStar == 1: self.Type = "Solitary"
         elif self._nbStar == 2: self.Type = "Binary"
         elif self._nbStar == 3: self.Type = "Ternary"
@@ -70,21 +77,35 @@ class System:
         Ajoute toutes les :self._nbStar: étoiles dans le system
         """
         for i in np.arange(self._nbStar):
-            if i==0:    IsPrimary = True
+            if i==0:    IsPrimary = True  # La premiere étoiles est l'étoile principale
             else:       IsPrimary = False
             self.addStar(IsPrimary=IsPrimary)
 
-    def addStar(self,Auto=True,IsPrimary=True):
-        """Ajoute une étoile du meme type que :Type:"""
+    def addStar(self,Auto=True,IsPrimary=False):
+        """
+        Ajoute une étoile
+        :param Auto: Definie si la génération auto est activé lors de la creation de l'étoile
+        :param IsPrimary: Si :True:, l'étoile est primaire
+        """
         self.Star.append(Star(Auto=Auto,IsPrimary=IsPrimary))
-        self.nbStar = len(self.Star)
+        self.nbStar = len(self.Star)  # Mets a jour le param :nbStar:
 
     def delStar(self,star):
-        """Supprime une l'étoile :Star: """
-        self.Star.remove(star)
-        self.nbStar = len(self.Star)
+        """
+        Supprime l'étoile
+        :param star: Objet étoile a supprimer. Si :Star:=int() supprime l'étoile qui a cet indice
+        :return:
+        """
+        if type(star) == int():
+            self.Star.remove(self.Star[star])
+        else:
+            self.Star.remove(star)
+            self.nbStar = len(self.Star)
 
     def refresh_nbOrbit(self):
+        """
+        Raffraichi le nombre d'orbite dans le système
+        """
         self.nbOrbit = 0
         for thisStar in self.Star:
             self.nbOrbit += thisStar.nbOrbit
@@ -92,7 +113,6 @@ class System:
     def clearorbit(self):
         """
         Supprime les orbites vides ou mal places dans tout le systeme
-        :return:
         """
         for curStar in self.Star:
             for curOrbit in curStar.Orbit:
@@ -101,38 +121,52 @@ class System:
         self.refresh_nbOrbit()
 
     def createSatellites(self):
-        """Creer les objets satellites dans toutes les orbites du systeme"""
-        for s in self.Star:
-            for o in s.Orbit:
-                o.createSatellites()
+        """
+        Creer les objets satellites dans toutes les orbites du systeme
+        """
+        for thisStar in self.Star:
+            for thisOrbit in thisStar.Orbit:
+                thisOrbit.createSatellites()
 
     def createPlanet(self):
         """Creer les objets planetes dans toutes les orbites du systeme"""
-        for s in self.Star:
-            for o in s.Orbit:
-                o.createPlanet()
+        for thisStar in self.Star:
+            for thisOrbit in thisStar.Orbit:
+                thisOrbit.createPlanet()
 
     def getPlanet(self,StarIndice,OrbitIndice):
+        """
+        Recupere l'objet planete dans le systeme si il existe
+        :param StarIndice: Indice de l'étoile où se situe la planète
+        :param OrbitIndice: Indice de la planète
+        """
         try:
             return self.Star[StarIndice].Orbit[OrbitIndice].Planet
         except:
             print("This planet don't exist")
 
-    def Show(self,LolLevel=2):
+    def Show(self, logLevel=2):
+        """
+        Affiche un visuel du systeme en fonction de :loglevel:
+        :param logLevel:
+            + si =1 affiche les étoiles et les orbites autour
+            + si =2 ajoute les satellites pour chaques étoiles
+        """
         print(self)
+        if not 1 <= logLevel <= 2: print("Log level inconnue")
         for thisStar in self.Star:
-            print("  "+str(thisStar))
+            print(" *"+str(thisStar))
             for thisOrbit in thisStar.Orbit:
                 if thisOrbit.Contain in ["Empty"] or thisOrbit.Zone in ["OutOfRange","Star","TooHot"]:   dot = "o"
                 elif thisOrbit.Contain in ["Small Terrestrial","Terrestrial","Super Terrestrial",
                                          "Desert", "Oceanic", "Glaciated"]:                              dot = "H"
                 else:                                                                                    dot = "+"
                 print("   |----- {} {}".format(dot,str(thisOrbit)))
-                if LolLevel >= 2:
+                if logLevel >= 2:
                     for thisSatellite in thisOrbit.dicoSatellites.keys():
                         if thisOrbit.dicoSatellites[thisSatellite] is not 0:
-                            print("   |   |.. {} {}".format(thisOrbit.dicoSatellites[thisSatellite],thisSatellite))
-
+                            print("   |      |----- {} {}".format(
+                                thisOrbit.dicoSatellites[thisSatellite],thisSatellite))
 
 
 ########################################################################################################################
@@ -628,6 +662,7 @@ Day Duration:               {} H
 ############################################################################################################
 ######################################## TEST ##############################################################
 ############################################################################################################
+S = System()
 """
 input("Test de la creation de systeme")
 again = True
