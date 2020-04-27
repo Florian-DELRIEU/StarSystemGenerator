@@ -197,7 +197,7 @@ def MoonAsPlanet(MoonType,Zone):
     if MoonType in ["HugeMoon"]:
         # Liste des type de planete que peut devenir la lune
         AvailableList = ["Terrestrial", "Geoactive", "Ultra Hostile", "Desert", "Oceanic", "Glaciated", "Exotic",
-                         "Protoplanet"]
+                         "Protoplanet","Ice World"]
         # Choix prédéfinie
         if Zone in ["Inner"]:      Type = choice(utils.getFromDict(InnerZone, AvailableList))
         if Zone in ["Habitable"]:  Type = choice(utils.getFromDict(HabitableZone, AvailableList))

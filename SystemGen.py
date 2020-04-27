@@ -365,7 +365,7 @@ class Orbit:
                 if currentSatellitesType in ["HugeMoon","LargeMoon","MediumMoon"]:  # selon la taille
                     PlanetMoonType = MoonAsPlanet(currentSatellitesType,self.Zone)    # Creation en tant que :Planet:
                     self.Contain = PlanetMoonType  # Pour utiliser la meme methode de creation que les planete
-                    self.Satellites.append(Planet(itsOrbit=self))
+                    self.Satellites.append(Planet(itsOrbit=self,MoonType=currentSatellitesType))
                 else:
                     self.Satellites.append(Satellite(currentSatellitesType))  # Creer l'objet :satellite: de Type :k:
         self.Contain = cacheContain  # recupere la veritable valeur
@@ -397,7 +397,7 @@ class Satellite:
 
 ########################################################################################################################
 class Planet:
-    def __init__(self, auto=True, itsOrbit=None):
+    def __init__(self, auto=True, itsOrbit=None, MoonType=None):
         if itsOrbit is None:
             self.Zone = rd.choice(["Inner","Habitable","Outer"])
             if self.Zone == "Inner":        self.Type = choice(InnerZone)
@@ -414,6 +414,7 @@ class Planet:
             self.itsOrbit = itsOrbit
             self.Distance = itsOrbit.OrbitDistance
             self.nbSatellites = itsOrbit.nbSatellites
+        self.MoonType = MoonType
         self.ImperialClassification = None
         self.MineralSurvey = dict()
         self.IsHabitable = False
@@ -445,7 +446,8 @@ class Planet:
 
     def Autogen(self):
     # self.size
-        self.Size = rollSize(self.Type)
+        if self.MoonType is None: self.Size = rollSize(self.Type)
+        else:                     self.Size = rollSize(self.MoonType)
         self.SizeInEarthRadius = self.Size / 12000  # Affiche la taille de la planete en fonction de celle de la Terre
         self.Surface = 2*np.pi*self.Size**2/4
         self.Gravity = self.Size / 12000
