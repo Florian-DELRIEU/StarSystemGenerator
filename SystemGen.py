@@ -4,10 +4,9 @@ Regroupe toutes les classes d'objets et les fonctions pour le fonctionnement de 
 from SystemRepository import *
 from SystemFunc import *
 import random as rd
-import numpy as np
 import MyPack.Utilities as utils
 from MyPack.Convert import *
-from System import *
+
 
 ########################################################################################################################
 class System:
@@ -59,7 +58,7 @@ class System:
         Ajoute une planète "Rogue" a l'une des étoiles du système
         :param nbRogue: Nombre de planètes à ajouter
         """
-        for i in np.arange(nbRogue):
+        for _ in np.arange(nbRogue):  # _ remplace la variable muette
             thisStar = rd.choice(self.Star)  # Choisi parmis les etoiles du systeme
             thisStar.addOrbit(IsRogue=True)       # Ajoute l'orbit Rogue a l'etoile choisis
 
@@ -145,6 +144,17 @@ class System:
         except:
             print("This planet don't exist")
 
+    def getOrbit(self,StarIndice,OrbitIndice):
+        """
+        Recupere l'objet planete dans le systeme si il existe
+        :param StarIndice: Indice de l'étoile où se situe la planète
+        :param OrbitIndice: Indice de la planète
+        """
+        try:
+            return self.Star[StarIndice].Orbit[OrbitIndice]
+        except:
+            print("This orbit don't exist")
+
     def Show(self, logLevel=2):
         """
         Affiche un visuel du systeme en fonction de :loglevel:
@@ -187,6 +197,8 @@ class Star:
         self.IsPrimary = IsPrimary  # Si etoile primaire ou companion etc...
         self.IsDwarf = False  # Si l'étoile est Naine ou pas
         self.Class,self.Decimal,self.Size = StarIs("G3V")  # Categorie d'étoile par défaut
+        self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom du parent
+        self.MaxRange = int()
         if Auto: self.Autogen(IsPrimary=IsPrimary)
 
     def __repr__(self):
@@ -213,6 +225,7 @@ class Star:
         self.Size = choice(StarSize)
     # self.Decimal -- Decimal classification
         self.Decimal = rd.randint(0,9)
+        self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom du parent
     # self.Distance -- Distance entre les etoiles
         RangeDistance = choice(StarDistance)
         if self.IsPrimary == "Primary":     self.Distance = None
@@ -227,15 +240,14 @@ class Star:
         elif    self.Class == "K":      self._nbOrbit -= 3
         if      self._nbOrbit < 0:      self._nbOrbit = 0  # mets 0 si inferieur a 0
         # self.Orbit
-        for i in np.arange(self._nbOrbit):  self.addOrbit()  # Ajoute toutes les orbites
+        for _ in np.arange(self._nbOrbit):  self.addOrbit()  # Ajoute toutes les orbites
 
     def addOrbit(self,IsRogue=False):
-        ParentName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom du parent
     #  Distance max en fonction de l'étoile
-        if self.Size == "IV":   MaxRange = 5
-        else:                   MaxRange = 13
+        if self.Size == "IV":   self.MaxRange = 5
+        else:                   self.MaxRange = 13
     # Creation dans la liste
-        self.Orbit.append(Orbit(MaxRange=MaxRange,Parent=ParentName,IsRogue=IsRogue))
+        self.Orbit.append(Orbit(itsStar=self,IsRogue=IsRogue))
         self.nbOrbit = len(self.Orbit)
 
     def delOrbit(self,orbit,log=True):
@@ -263,15 +275,19 @@ class Star:
 
 ########################################################################################################################
 class Orbit:
-    def __init__(self,MaxRange=13,Parent="",Auto=True,IsRogue=False):
+    def __init__(self,Auto=True,itsStar=None,IsRogue=False):
         """
         Objet de Type Orbite
-        :param MaxRange: Distance maxi de l'orbite
-        :param Parent: Parent de l'orbite (ex: "G3V")
+        :param itsStar: Objet :Star: parente
+        :param IsRogue: si :True: creer une orbite rogue
         :param Auto: si generation auto ou non
         """
-        self.MaxRange = MaxRange
-        self.Parent = Parent
+        if itsStar is not None:
+            self.MaxRange = itsStar.MaxRange
+            self.Parent = itsStar.FullClassName
+        else:
+            self.MaxRange = 13
+            self.Parent = "G3V"  # Valeur par défaut (a modifier)
         self.IsRogue = IsRogue
         self.OrbitDistance = float()
         self.Zone = str()
@@ -341,13 +357,12 @@ class Orbit:
 
     def createSatellites(self):
         """
-        Cree les objets satellites dans l'attribut self.Satellites
-        :return:
+        Cree les objets satellites dans l'attribut self.Satellites en fonction de :dicoSatellite:
         """
         for currentSatellitesType in self.dicoSatellites.keys():  # Chaque Type de satellites
-            for i in np.arange(self.dicoSatellites[currentSatellitesType]):
-                if currentSatellitesType in ["HugeMoon"]:  # Creation en tant que :class Planet:
-                    self.Satellites.append(Planet(Type="HugeMoon"))
+            for _ in np.arange(self.dicoSatellites[currentSatellitesType]):  # autant de fois qu'il y en a
+                if currentSatellitesType in ["HugeMoon","LargeMoon","MediumMoon"]:  # Creation en tant que :Planet:
+                    self.Satellites.append(Planet(itsOrbit=self))
                 else:
                     self.Satellites.append(Satellite(currentSatellitesType))  # Creer l'objet :satellite: de Type :k:
 
@@ -357,7 +372,7 @@ class Satellite:
     """
     Uniquement les petits satellites sans atmosphere mais avec des caractéristiques utiles
     """
-    def __init__(self,SatType="",auto=True):
+    def __init__(self,SatType,auto=True):
         self.Composition = list()
         self.Type = SatType
         self.Size = int()
@@ -373,18 +388,18 @@ class Satellite:
         if   self.Type in ["MinorRing","MajorRing"]:    self.Size = 1
         elif self.Type in ["Moonlets"]:                 self.Size = rd.choice(np.arange(100,1500,100))
         elif self.Type in ["SmallMoon"]:                self.Size = rd.choice(np.arange(1500,2200,100))
-        elif self.Type in ["MediumMoon"]:               self.Size = rd.choice(np.arange(2200,2700,100))
-        elif self.Type in ["LargeMoon"]:                self.Size = rd.choice(np.arange(2700,4500,100))
     # self.Distance
         self.Distance = DetermineDistance(self.Type)  # Recupere distance via .csv (voir :DetermineDistance:)
 
 
 ########################################################################################################################
 class Planet:
-    def __init__(self, auto=True, Type="Terrestrial", Zone="Habitable", itsOrbit=None):
+    def __init__(self, auto=True, itsOrbit=None):
         if itsOrbit is None:
-            self.Type = Type
-            self.Zone = Zone
+            self.Zone = rd.choice(["Inner","Habitable","Outer"])
+            if self.Zone == "Inner":        self.Type = choice(InnerZone)
+            elif self.Zone == "Habitable":  self.Type = choice(HabitableZone)
+            elif self.Zone == "Outer":      self.Type = choice(OuterZone)
             self.Satellites = list()
             self.itsOrbit = None
             self.Distance = "Unknowed"
@@ -406,6 +421,17 @@ class Planet:
         self.Surface = float()
         self.Gravity = float()
         self.AtmDensity = float()
+        self.Volcanism = float()
+        self.Hydroshpere = float()
+        self.Cryosphere = float()
+        self.TectonicActivity = float()
+        self.Land = float()
+        self.MeanTemp = float()
+        self.Humidity = float()
+        self.Climate = str()
+        self.Day = int()
+        self.Note = str()
+        self.TotalMoonSize = float()
         if auto:    self.Autogen()
 
     def __repr__(self):
@@ -416,7 +442,7 @@ class Planet:
 
     def Autogen(self):
     # self.size
-        self.Size = rollSatelliteSize(self.Type)
+        self.Size = rollSize(self.Type)
         self.SizeInEarthRadius = self.Size / 12000  # Affiche la taille de la planete en fonction de celle de la Terre
         self.Surface = 2*np.pi*self.Size**2/4
         self.Gravity = self.Size / 12000
@@ -426,8 +452,8 @@ class Planet:
         if   self.Zone == "Inner":      modifiers -= 2
         elif self.Zone == "Habitable":  modifiers += 1
         elif self.Zone == "Outer":      modifiers += 2
-        if   self.Size/1000 < 5:        modifiers -= 2
-        elif self.Size/1000 > 8:        modifiers -= 2
+        if   self.Size < 5000:          modifiers -= 2
+        elif self.Size > 8000:          modifiers -= 2
         # Atmosphere
         if self.Type in ["Proto Planet"]:
             self.AtmosphereComposition = rollchoicedico(ProtoPlanetAtm, (1, 10), modifiers)
@@ -579,8 +605,8 @@ class Planet:
             self.TectonicActivity =     0
 
     # Fait en sorte que la somme hydro+cryo ne depasse pas 100
-        if self.Hydroshpere == None: self.Hydroshpere = 0
-        if self.Cryosphere == None: self.Cryosphere = 0
+        if self.Hydroshpere is None: self.Hydroshpere = 0
+        if self.Cryosphere is None: self.Cryosphere = 0
         if self.Hydroshpere + self.Cryosphere > 100:
             self.Hydroshpere    = ( self.Hydroshpere / (self.Hydroshpere+self.Cryosphere) )*100
             self.Cryosphere     = ( self.Cryosphere / (self.Hydroshpere+self.Cryosphere) )*100
@@ -614,7 +640,7 @@ class Planet:
             self.ImperialClassification = choice(ImperialClass)
 
     def Show(self):
-        if self.itsOrbit == None:   Parent = "n Unknow"
+        if self.itsOrbit is None:   Parent = "n Unknow"
         else:                       Parent = " "+ str(self.itsOrbit.Parent)
         txt = """+++ NO NAMED +++: {} planet around a{} star
 Segmentum:      +++ NO ENTRY +++
@@ -659,9 +685,8 @@ Day Duration:               {} H
 
         print(txt)
 
-############################################################################################################
-######################################## TEST ##############################################################
-############################################################################################################
+
+########################################################################################################################
 S = System()
 """
 input("Test de la creation de systeme")

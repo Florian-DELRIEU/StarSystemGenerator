@@ -3,6 +3,8 @@ Regroupement de fonction essentielles pour le fonctionnement de :SystemGen:
 """
 import random as rd
 from MyPack.Convert import *
+import MyPack.Utilities as utils
+from SystemRepository import *
 
 def choice(dico):  # Fonction pour faire un choix l'objet dico
     """
@@ -106,20 +108,24 @@ def rollchoicedico(dico,rolltuple=tuple(),modifiers=int()):
     return output
 
 
-def rollSatelliteSize(SatelliteType):
-    if   SatelliteType in ["Mesoplanet"]:           Size = roll(1,4)
-    elif SatelliteType in ["ProtoPlanet"]:          Size = roll(6,15)
-    elif SatelliteType in ["Small Terrestrial"]:    Size = roll(3,9)
-    elif SatelliteType in ["Super Terrestrial"]:    Size = roll(16,30)
-    elif SatelliteType in ["Chthonian"]:            Size = roll(5,40)
-    elif SatelliteType in ["Ice World"]:            Size = roll(4,10)
-    elif SatelliteType in ["Dirty SnowBall"]:       Size = roll(4,10)
-    elif SatelliteType in ["Ultra Hostile"]:        Size = roll(5,15)
+def rollSize(PlanetType):
+    if   PlanetType in ["Mesoplanet"]:           Size = roll(1,5)
+    elif PlanetType in ["ProtoPlanet"]:          Size = roll(6,15)
+    elif PlanetType in ["Small Terrestrial"]:    Size = roll(3,9)
+    elif PlanetType in ["Super Terrestrial"]:    Size = roll(16,30)
+    elif PlanetType in ["Chthonian"]:            Size = roll(5,40)
+    elif PlanetType in ["Ice World"]:            Size = roll(4,10)
+    elif PlanetType in ["Dirty SnowBall"]:       Size = roll(4,10)
+    elif PlanetType in ["Ultra Hostile"]:        Size = roll(5,15)
     # Gas Giant
-    elif SatelliteType in ["Small Gas Giant"]:      Size = roll(5,10) * 10
-    elif SatelliteType in ["Gas Giant"]:            Size = roll(11,20) * 10
-    elif SatelliteType in ["Gas SuperGiant"]:       Size = roll(21,30) * 10
-    elif SatelliteType in ["Gas UltraGiant"]:       Size = roll(31,40) * 10
+    elif PlanetType in ["Small Gas Giant"]:      Size = roll(5,10) * 10
+    elif PlanetType in ["Gas Giant"]:            Size = roll(11,20) * 10
+    elif PlanetType in ["Gas SuperGiant"]:       Size = roll(21,30) * 10
+    elif PlanetType in ["Gas UltraGiant"]:       Size = roll(31,40) * 10
+
+    elif PlanetType in ["MediumMoon"]:            Size = rd.choice(np.arange(2.2, 2.7, .1))
+    elif PlanetType in ["LargeMoon"]:             Size = rd.choice(np.arange(2.7, 4.5, .1))
+    elif PlanetType in ["HugeMoon"]:              Size = rd.choice(np.arange(4.5, 7.0, .1))
     # others
     else:                                           Size = roll(10,15)  # Autres terrestres
     return Size*1000  # en km
@@ -184,3 +190,27 @@ def determineMineralSurvey(PlanetaryType):
 
         Mineral[currentMineral] = Amount
     return Mineral
+
+
+def MoonAsPlanet(self, MoonType):
+    if MoonType in ["HugeMoon"]:
+        # Liste des type de planete que peut devenir la lune
+        AvailableList = ["Terrestrial", "Geoactive", "Ultra Hostile", "Desert", "Oceanic", "Glaciated", "Exotic",
+                         "Protoplanet"]
+        # Choix prédéfinie
+        if self.Zone in ["Inner"]:      self.Type = choice(utils.getFromDict(InnerZone, AvailableList))
+        if self.Zone in ["Habitable"]:  self.Type = choice(utils.getFromDict(HabitableZone, AvailableList))
+        if self.Zone in ["Outer"]:      self.Type = choice(utils.getFromDict(OuterZone, AvailableList))
+    if MoonType in ["LargeMoon"]:
+        AvailableList = ["Small Terrestrial", "Geoactive", "Ultra Hostile", "Dirty SnowBall", "Ice World"
+            , "Exotic", "Protoplanet"]
+        if self.Zone in ["Inner"]:      self.Type = choice(utils.getFromDict(InnerZone, AvailableList))
+        if self.Zone in ["Habitable"]:  self.Type = choice(utils.getFromDict(HabitableZone, AvailableList))
+        if self.Zone in ["Outer"]:      self.Type = choice(utils.getFromDict(OuterZone, AvailableList))
+    if MoonType in ["MediumMoon"]:
+        AvailableList = ["Mesoplanet", "Protoplanet"]
+        if self.Zone in ["Inner"]:      self.Type = choice(utils.getFromDict(InnerZone, AvailableList))
+        if self.Zone in ["Habitable"]:  self.Type = choice(utils.getFromDict(HabitableZone, AvailableList))
+        if self.Zone in ["Outer"]:      self.Type = choice(utils.getFromDict(OuterZone, AvailableList))
+
+    return self.Type

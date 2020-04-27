@@ -43,6 +43,7 @@ InnerZone["Empty"] = 10
 InnerZone["Asteroid Belt"] = 10
 InnerZone["Mesoplanet"] = 20
 InnerZone["Small Terrestrial"] = 20
+InnerZone["Terrestrial"] = 20
 InnerZone["Geoactive"] = 5
 InnerZone["Super Terrestrial"] = 5
 InnerZone["Small Gas Giant"] = 1
@@ -51,6 +52,7 @@ InnerZone["Reducing"] = 15
 InnerZone["Gas SuperGiant"] = 1
 InnerZone["Gas UltraGiant"] = 1
 InnerZone["Ultra Hostile"] = 10
+InnerZone["Chthonian"] = 5
 
 HabitableZone = dict()
 HabitableZone["Empty"] = 10
@@ -69,6 +71,9 @@ HabitableZone["Oceanic"] = 5
 HabitableZone["Glaciated"] = 5
 HabitableZone["Gas UltraGiant"] = 2
 HabitableZone["Ultra Hostile"] = 10
+
+# Liste des planetes de type Habitable
+HabitableList = ["Small Terrestrial", "Terrestrial", "Super Terrestrial", "Desert", "Oceanic", "Glaciated"]
 
 OuterZone = dict()
 OuterZone["Empty"] = 10
