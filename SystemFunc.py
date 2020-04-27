@@ -192,25 +192,26 @@ def determineMineralSurvey(PlanetaryType):
     return Mineral
 
 
-def MoonAsPlanet(self, MoonType):
+def MoonAsPlanet(MoonType,Zone):
+    Type = str()
     if MoonType in ["HugeMoon"]:
         # Liste des type de planete que peut devenir la lune
         AvailableList = ["Terrestrial", "Geoactive", "Ultra Hostile", "Desert", "Oceanic", "Glaciated", "Exotic",
                          "Protoplanet"]
         # Choix prédéfinie
-        if self.Zone in ["Inner"]:      self.Type = choice(utils.getFromDict(InnerZone, AvailableList))
-        if self.Zone in ["Habitable"]:  self.Type = choice(utils.getFromDict(HabitableZone, AvailableList))
-        if self.Zone in ["Outer"]:      self.Type = choice(utils.getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(utils.getFromDict(InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(utils.getFromDict(HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(utils.getFromDict(OuterZone, AvailableList))
     if MoonType in ["LargeMoon"]:
         AvailableList = ["Small Terrestrial", "Geoactive", "Ultra Hostile", "Dirty SnowBall", "Ice World"
             , "Exotic", "Protoplanet"]
-        if self.Zone in ["Inner"]:      self.Type = choice(utils.getFromDict(InnerZone, AvailableList))
-        if self.Zone in ["Habitable"]:  self.Type = choice(utils.getFromDict(HabitableZone, AvailableList))
-        if self.Zone in ["Outer"]:      self.Type = choice(utils.getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(utils.getFromDict(InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(utils.getFromDict(HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(utils.getFromDict(OuterZone, AvailableList))
     if MoonType in ["MediumMoon"]:
         AvailableList = ["Mesoplanet", "Protoplanet"]
-        if self.Zone in ["Inner"]:      self.Type = choice(utils.getFromDict(InnerZone, AvailableList))
-        if self.Zone in ["Habitable"]:  self.Type = choice(utils.getFromDict(HabitableZone, AvailableList))
-        if self.Zone in ["Outer"]:      self.Type = choice(utils.getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(utils.getFromDict(InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(utils.getFromDict(HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(utils.getFromDict(OuterZone, AvailableList))
 
-    return self.Type
+    return Type

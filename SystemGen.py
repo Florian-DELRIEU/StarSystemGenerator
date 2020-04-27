@@ -359,13 +359,16 @@ class Orbit:
         """
         Cree les objets satellites dans l'attribut self.Satellites en fonction de :dicoSatellite:
         """
+        cacheContain = self.Contain  # stocke :self.Contain: avant modification
         for currentSatellitesType in self.dicoSatellites.keys():  # Chaque Type de satellites
             for _ in np.arange(self.dicoSatellites[currentSatellitesType]):  # autant de fois qu'il y en a
-                if currentSatellitesType in ["HugeMoon","LargeMoon","MediumMoon"]:  # Creation en tant que :Planet:
+                if currentSatellitesType in ["HugeMoon","LargeMoon","MediumMoon"]:  # selon la taille
+                    PlanetMoonType = MoonAsPlanet(currentSatellitesType,self.Zone)    # Creation en tant que :Planet:
+                    self.Contain = PlanetMoonType  # Pour utiliser la meme methode de creation que les planete
                     self.Satellites.append(Planet(itsOrbit=self))
                 else:
                     self.Satellites.append(Satellite(currentSatellitesType))  # Creer l'objet :satellite: de Type :k:
-
+        self.Contain = cacheContain  # recupere la veritable valeur
 
 ########################################################################################################################
 class Satellite:
