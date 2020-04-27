@@ -71,11 +71,11 @@ def DetermineDistance(Type):
         else: output =                                  CsvFile["Medium Orbit"][roll(0,19)]
     elif Type == "Gas Giant":
         if cur <= 6: output =                           CsvFile["Close Orbit"][roll(0,18)]
-        if cur in [7,8,9]: output =                     CsvFile["Medium Orbit"][roll(0,18)]
+        elif cur in [7,8,9]: output =                   CsvFile["Medium Orbit"][roll(0,18)]
         else: output =                                  CsvFile["Far Orbit"][roll(0,18)]
     elif Type in ["Gas SuperGiant","Gas UltraGiant"]:
         if cur <= 4: output =                           CsvFile["Close Orbit"][roll(0,18)]
-        if cur in [5,6,7,8]:output=                     CsvFile["Medium Orbit"][roll(0,18)]
+        elif cur in [5,6,7,8]:output=                   CsvFile["Medium Orbit"][roll(0,18)]
         else: output =                                  CsvFile["Far Orbit"][roll(0,18)]
     elif Type in ["MinorRing","MajorRing"]:
         output =                                        CsvFile["Ring System"][roll(0,18)]
