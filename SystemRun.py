@@ -33,3 +33,8 @@ def UserSystem():
 	S.clearorbit()
 	S.Show()
 	return S
+
+def TestSatellites():
+	S.createPlanet()
+	S.createSatellites()
+	S.Show()

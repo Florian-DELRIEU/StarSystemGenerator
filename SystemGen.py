@@ -7,6 +7,7 @@ import random as rd
 import MyPack.Utilities as utils
 from MyPack.Convert import *
 
+from SystemRun import *
 
 ########################################################################################################################
 class System:
@@ -163,7 +164,7 @@ class System:
             + si =2 ajoute les satellites pour chaques étoiles
         """
         print(self)
-        if not 1 <= logLevel <= 2: print("Log level inconnue")
+        if not 1 <= logLevel <= 3: print("Log level inconnue")
         for thisStar in self.Star:
             print(" *"+str(thisStar))
             for thisOrbit in thisStar.Orbit:
@@ -173,10 +174,15 @@ class System:
                 else:                                                                                    dot = "+"
                 print("   |----- {} {}".format(dot,str(thisOrbit)))
                 if logLevel >= 2:
-                    for thisSatellite in thisOrbit.dicoSatellites.keys():
-                        if thisOrbit.dicoSatellites[thisSatellite] is not 0:
+                    for thisSatelliteType in thisOrbit.dicoSatellites.keys():
+                        NumberOfSatellites = thisOrbit.dicoSatellites[thisSatelliteType]
+                        if NumberOfSatellites is not 0:
                             print("   |      |----- {} {}".format(
-                                thisOrbit.dicoSatellites[thisSatellite],thisSatellite))
+                                NumberOfSatellites,thisSatelliteType))
+                        if len(thisOrbit.Satellites) is not 0:
+                            for thisSatellite in thisOrbit.Satellites:
+                                if type(thisSatellite) is Planet and thisSatellite.MoonType is thisSatelliteType:
+                                    print("   |      |        {} {}".format("+",thisSatellite))
 
 
 ########################################################################################################################
@@ -693,6 +699,8 @@ Day Duration:               {} H
 
 ########################################################################################################################
 S = System()
+S.createSatellites()
+S.Show(3)
 """
 input("Test de la creation de systeme")
 again = True
