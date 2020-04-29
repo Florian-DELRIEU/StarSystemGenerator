@@ -182,7 +182,7 @@ class System:
                 elif thisOrbit.Contain in ["Small Terrestrial","Terrestrial","Super Terrestrial",
                                          "Desert", "Oceanic", "Glaciated"]:                              dot = "H"
                 else:                                                                                    dot = "+"
-                print("   |----- {} {}".format(dot,str(thisOrbit)))
+                print("   {}----- {} {}".format(thisStar.Orbit.index(thisOrbit),dot,str(thisOrbit)))
                 if logLevel >= 2:
                     for thisSatelliteType in thisOrbit.dicoSatellites.keys():
                         NumberOfSatellites = thisOrbit.dicoSatellites[thisSatelliteType]
