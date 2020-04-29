@@ -7,8 +7,6 @@ import random as rd
 import MyPack.Utilities as utils
 from MyPack.Convert import *
 
-from SystemRun import *
-
 ########################################################################################################################
 class System:
     """
@@ -388,6 +386,7 @@ class Orbit:
                     self.Satellites.append(Satellite(currentSatellitesType))  # Creer l'objet :satellite: de Type :k:
         self.Contain = cacheContain  # recupere la veritable valeur
 
+
 ########################################################################################################################
 class Satellite:
     """
@@ -457,7 +456,7 @@ class Planet:
         if auto:    self.Autogen()
 
     def __repr__(self):
-        txt = "(size: {} earth radius)".format(utils.truncSignificatif(self.SizeInEarthRadius,2))
+        txt = "(size: {} earth radius)".format(utils.truncSignificatif(self.SizeInEarthRadius,3))
         if self.IsHabitable:    txt = "{} world ".format(self.Type) + txt
         else:                   txt = "{} planet ".format(self.Type) + txt
         return txt
@@ -688,6 +687,8 @@ Land cover:                 {} %
 Mean Temperature:           {}°C
 Global Climate:             {}
 Day Duration:               {} H
+
+Moons:                      {} Moons
         """.format(
         self.Type,Parent,
         self.Zone,self.Distance,
@@ -703,14 +704,22 @@ Day Duration:               {} H
         utils.truncSignificatif(self.Land,2),
         round(self.MeanTemp),
         self.Climate,
-        int(self.Day)
+        int(self.Day),
+        self.nbSatellites
         )
+        txtSat = ""
+        for thisSat in self.Satellites:
+            currentLine = str(thisSat)
+            txtSat += "      +-- {} \n".format(currentLine)
 
         print(txt)
+        print(txtSat)
 
 
 ########################################################################################################################
+
 S = System()
+S.createPlanet()
 S.createSatellites()
 S.Show(3)
 """
