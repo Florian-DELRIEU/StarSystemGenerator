@@ -156,6 +156,18 @@ class System:
         except:
             print("This orbit don't exist")
 
+    def getSatellite(self,StarIndice,Orbiteindice,SatelliteIndice):
+        """
+        Recupere l'objet satellites dans le systeme si il existe
+        :param StarIndice: Indice de l'étoile
+        :param Orbiteindice: Indice de l'orbite
+        :param SatelliteIndice: Indice du satellite
+        """
+        try:
+            return self.Star[StarIndice].Orbit[Orbiteindice].Satellites[SatelliteIndice]
+        except:
+            print("This satellites don't exist")
+
     def Show(self, logLevel=2):
         """
         Affiche un visuel du systeme en fonction de :loglevel:
