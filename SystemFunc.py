@@ -164,7 +164,7 @@ def determineMineralSurvey(PlanetaryType):
     Mineral = dict()
     for currentMineral in ["Minerals","Common Metals","Rare Metals","Industrial Crystals",
                      "Gemstones","Radioactives"]:
-        Amount = roll(1,9)
+        Amount = roll(1,10)
         if currentMineral == "Minerals":
             Amount += 3
             if PlanetaryType == "Ice World": Amount -= 4
@@ -188,6 +188,8 @@ def determineMineralSurvey(PlanetaryType):
             Amount += -4
             if PlanetaryType == "Ice World": Amount -= 3
 
+        if Amount <= 0:  Amount = 0
+        if Amount >= 10: Amount = 10
         Mineral[currentMineral] = Amount
     return Mineral
 
