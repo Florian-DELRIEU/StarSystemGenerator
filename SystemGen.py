@@ -178,10 +178,12 @@ class System:
         for thisStar in self.Star:
             print(" *"+str(thisStar))
             for thisOrbit in thisStar.Orbit:
-                if thisOrbit.Contain in ["Empty"] or thisOrbit.Zone in ["OutOfRange","Star","TooHot"]:   dot = "o"
+                if thisOrbit.Contain in ["Empty","None"] or thisOrbit.Zone in ["OutofRange","Star","TooHot"]:
+                                                                                                        dot = "o"
                 elif thisOrbit.Contain in ["Small Terrestrial","Terrestrial","Super Terrestrial",
-                                         "Desert", "Oceanic", "Glaciated"]:                              dot = "H"
-                else:                                                                                    dot = "+"
+                                         "Desert", "Oceanic", "Glaciated"]:                             dot = "H"
+                else:
+                                                                                                        dot = "+"
                 print("   {}----- {} {}".format(thisStar.Orbit.index(thisOrbit),dot,str(thisOrbit)))
                 if logLevel >= 2:
                     for thisSatelliteType in thisOrbit.dicoSatellites.keys():
