@@ -363,7 +363,7 @@ class Orbit:
             self.dicoSatellites = rolldico(SmallGiantSat)
         elif self.Contain in ["Gas SuperGiant","Gas UltraGiant"]:
             self.dicoSatellites = rolldico(BigGiantSat)
-        elif self.Contain not in ["Asteroid Belt"] :  # Tout le reste sauf asteroid belt
+        elif self.Contain not in ["Asteroid Belt","Empty","None"] :  # Tout le reste sauf asteroid belt
             self.dicoSatellites = rolldico(TerrestrialPlanetSat)
     #  Compte le nombre total de satellites
         for k in self.dicoSatellites.keys(): self.nbSatellites += self.dicoSatellites[k]
