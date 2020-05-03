@@ -416,19 +416,20 @@ class Satellite:
 class Planet:
     def __init__(self, auto=True, itsOrbit=None, MoonType=None):
         if itsOrbit is None:
+            self.haveOrbit = False
             self.Zone = rd.choice(["Inner","Habitable","Outer"])
             if self.Zone == "Inner":        self.Type = choice(InnerZone)
             elif self.Zone == "Habitable":  self.Type = choice(HabitableZone)
             elif self.Zone == "Outer":      self.Type = choice(OuterZone)
             self.Satellites = list()
-            self.itsOrbit = None
             self.Distance = "Unknowed"
             self.nbSatellites = 0
         else:
+            self.haveOrbit = True  # Vrai si :itsOrbit: est non nul
             self.Type = itsOrbit.Contain
             self.Zone = itsOrbit.Zone
             self.Satellites = itsOrbit.Satellites
-            self.itsOrbit = itsOrbit
+            self.Parent = itsOrbit.Parent
             self.Distance = itsOrbit.OrbitDistance
             self.nbSatellites = itsOrbit.nbSatellites
         self.MoonType = MoonType
@@ -662,8 +663,8 @@ class Planet:
             self.ImperialClassification = choice(ImperialClass)
 
     def Show(self):
-        if self.itsOrbit is None:   Parent = "n Unknow"
-        else:                       Parent = " "+ str(self.itsOrbit.Parent)
+        if not self.haveOrbit:      Parent = "n Unknow"
+        else:                       Parent = " "+ str(self.Parent)
         txt = """+++ NO NAMED +++: {} planet around a{} star
 Segmentum:      +++ NO ENTRY +++
 Sector:         +++ NO ENTRY +++
