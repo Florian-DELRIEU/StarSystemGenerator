@@ -217,6 +217,7 @@ class Star:
         self.Class,self.Decimal,self.Size = StarIs("G3V")  # Categorie d'étoile par défaut
         self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom du parent
         self.MaxRange = int()
+        self.Note = dict()
         if Auto: self.Autogen(IsPrimary=IsPrimary)
 
     def __repr__(self):
@@ -244,6 +245,8 @@ class Star:
     # self.Decimal -- Decimal classification
         self.Decimal = rd.randint(0,9)
         self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom du parent
+    # self.Note
+        self.Note = self.WriteNote(self)
     # self.Distance -- Distance entre les etoiles
         RangeDistance = choice(StarDistance)
         if self.IsPrimary == "Primary":     self.Distance = None
@@ -290,6 +293,42 @@ class Star:
                 print("This orbit don't exist")
         self.nbOrbit = len(self.Orbit)
 
+    def WriteNote(self,Star):
+        DicoNote = dict()
+        if   Star.Class == "W":
+            DicoNote["Surface Temperature"] = [30000,150000]  #in K
+            DicoNote["Colot"] = "Blue-Purple"
+            DicoNote["Solar Mass"] = "Over 20"  #in K
+        elif Star.Class == "O":
+            DicoNote["Surface Temperature"] = [30000,60000]  #in K
+            DicoNote["Colot"] = "Blue"
+            DicoNote["Solar Mass"] = 60  #in K
+        elif Star.Class == "B":
+            DicoNote["Surface Temperature"] = [10000,30000]  #in K
+            DicoNote["Colot"] = "Blue-White"
+            DicoNote["Solar Mass"] = 18  #in K
+        elif Star.Class == "A":
+            DicoNote["Surface Temperature"] = [7500,10000]  #in K
+            DicoNote["Colot"] = "White"
+            DicoNote["Solar Mass"] = 3.2  #in K
+        elif Star.Class == "F":
+            DicoNote["Surface Temperature"] = [6000,7500]  #in K
+            DicoNote["Colot"] = "Yellow-White"
+            DicoNote["Solar Mass"] = 1.3  #in K
+        elif Star.Class == "G":
+            DicoNote["Surface Temperature"] = [5000,6000]  #in K
+            DicoNote["Colot"] = "Yellow"
+            DicoNote["Solar Mass"] = 1.1
+        elif Star.Class == "K":
+            DicoNote["Surface Temperature"] = [3500,5000]  #in K
+            DicoNote["Colot"] = "Orange"
+            DicoNote["Solar Mass"] = 0.8  #in K
+        elif Star.Class == "M":
+            DicoNote["Surface Temperature"] = 3000  #in K
+            DicoNote["Colot"] = "Red"
+            DicoNote["Solar Mass"] = 0.3
+
+        return DicoNote
 
 ########################################################################################################################
 class Orbit:

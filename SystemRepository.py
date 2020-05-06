@@ -5,6 +5,9 @@ Attribut[Valeur] = Poids
 
 # SPECTRAL
 Class = dict()
+Class["W"] = 0
+Class["O"] = 0
+Class["B"] = 0
 Class["A"] = 2
 Class["F"] = 4
 Class["G"] = 4
@@ -18,7 +21,7 @@ DwarfClass["dM"] = 0.5
 DwarfClass["dK"] = 0.2
 
 StarType = dict()  # Etoile normale ou naine
-StarType["Star"] = 0.5
+StarType["Star"] = 1
 StarType["Dwarf"] = 0
 
 StarSize = dict()
