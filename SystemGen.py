@@ -293,37 +293,37 @@ class Star:
                 print("This orbit don't exist")
         self.nbOrbit = len(self.Orbit)
 
-    def WriteNote(self,Star):
+    def WriteNote(self):
         DicoNote = dict()
-        if   Star.Class == "W":
+        if   self.Class == "W":
             DicoNote["Surface Temperature"] = [30000,150000]  #in K
             DicoNote["Colot"] = "Blue-Purple"
             DicoNote["Solar Mass"] = "Over 20"  #in K
-        elif Star.Class == "O":
+        elif self.Class == "O":
             DicoNote["Surface Temperature"] = [30000,60000]  #in K
             DicoNote["Colot"] = "Blue"
             DicoNote["Solar Mass"] = 60  #in K
-        elif Star.Class == "B":
+        elif self.Class == "B":
             DicoNote["Surface Temperature"] = [10000,30000]  #in K
             DicoNote["Colot"] = "Blue-White"
             DicoNote["Solar Mass"] = 18  #in K
-        elif Star.Class == "A":
+        elif self.Class == "A":
             DicoNote["Surface Temperature"] = [7500,10000]  #in K
             DicoNote["Colot"] = "White"
             DicoNote["Solar Mass"] = 3.2  #in K
-        elif Star.Class == "F":
+        elif self.Class == "F":
             DicoNote["Surface Temperature"] = [6000,7500]  #in K
             DicoNote["Colot"] = "Yellow-White"
             DicoNote["Solar Mass"] = 1.3  #in K
-        elif Star.Class == "G":
+        elif self.Class == "G":
             DicoNote["Surface Temperature"] = [5000,6000]  #in K
             DicoNote["Colot"] = "Yellow"
             DicoNote["Solar Mass"] = 1.1
-        elif Star.Class == "K":
+        elif self.Class == "K":
             DicoNote["Surface Temperature"] = [3500,5000]  #in K
             DicoNote["Colot"] = "Orange"
             DicoNote["Solar Mass"] = 0.8  #in K
-        elif Star.Class == "M":
+        elif self.Class == "M":
             DicoNote["Surface Temperature"] = 3000  #in K
             DicoNote["Colot"] = "Red"
             DicoNote["Solar Mass"] = 0.3
