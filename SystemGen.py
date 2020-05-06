@@ -246,7 +246,7 @@ class Star:
         self.Decimal = rd.randint(0,9)
         self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom du parent
     # self.Note
-        self.Note = self.WriteNote(self)
+        self.Note = self.WriteNote()
     # self.Distance -- Distance entre les etoiles
         RangeDistance = choice(StarDistance)
         if self.IsPrimary == "Primary":     self.Distance = None
@@ -297,35 +297,35 @@ class Star:
         DicoNote = dict()
         if   self.Class == "W":
             DicoNote["Surface Temperature"] = [30000,150000]  #in K
-            DicoNote["Colot"] = "Blue-Purple"
-            DicoNote["Solar Mass"] = "Over 20"  #in K
+            DicoNote["Color"] = "Blue-Purple"
+            DicoNote["Solar Mass"] = "Over 20"
         elif self.Class == "O":
             DicoNote["Surface Temperature"] = [30000,60000]  #in K
-            DicoNote["Colot"] = "Blue"
-            DicoNote["Solar Mass"] = 60  #in K
+            DicoNote["Color"] = "Blue"
+            DicoNote["Solar Mass"] = 60
         elif self.Class == "B":
             DicoNote["Surface Temperature"] = [10000,30000]  #in K
-            DicoNote["Colot"] = "Blue-White"
-            DicoNote["Solar Mass"] = 18  #in K
+            DicoNote["Color"] = "Blue-White"
+            DicoNote["Solar Mass"] = 18
         elif self.Class == "A":
             DicoNote["Surface Temperature"] = [7500,10000]  #in K
-            DicoNote["Colot"] = "White"
-            DicoNote["Solar Mass"] = 3.2  #in K
+            DicoNote["Color"] = "White"
+            DicoNote["Solar Mass"] = 3.2
         elif self.Class == "F":
             DicoNote["Surface Temperature"] = [6000,7500]  #in K
-            DicoNote["Colot"] = "Yellow-White"
-            DicoNote["Solar Mass"] = 1.3  #in K
+            DicoNote["Color"] = "Yellow-White"
+            DicoNote["Solar Mass"] = 1.3
         elif self.Class == "G":
             DicoNote["Surface Temperature"] = [5000,6000]  #in K
-            DicoNote["Colot"] = "Yellow"
+            DicoNote["Color"] = "Yellow"
             DicoNote["Solar Mass"] = 1.1
         elif self.Class == "K":
             DicoNote["Surface Temperature"] = [3500,5000]  #in K
-            DicoNote["Colot"] = "Orange"
-            DicoNote["Solar Mass"] = 0.8  #in K
+            DicoNote["Color"] = "Orange"
+            DicoNote["Solar Mass"] = 0.8
         elif self.Class == "M":
             DicoNote["Surface Temperature"] = 3000  #in K
-            DicoNote["Colot"] = "Red"
+            DicoNote["Color"] = "Red"
             DicoNote["Solar Mass"] = 0.3
 
         return DicoNote
