@@ -38,3 +38,9 @@ def TestSatellites():
 	S.createPlanet()
 	S.createSatellites()
 	S.Show()
+
+def MakePlanet(PlaneteType):
+	P = Planet()
+	while P.Type is not PlaneteType:
+		P.Autogen()
+	P.Show(3)
