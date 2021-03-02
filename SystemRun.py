@@ -1,3 +1,6 @@
+"""
+Fonctions utilisant :SystemGen: pour la génération de systemes
+"""
 from SystemGen import *
 import numpy as np
 
@@ -38,3 +41,9 @@ def TestSatellites():
 	S.createPlanet()
 	S.createSatellites()
 	S.Show()
+
+def BasicGeneration():
+	S = System()
+	S.createPlanet()
+	S.createSatellites()
+	S.Show(3)

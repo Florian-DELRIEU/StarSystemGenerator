@@ -829,10 +829,6 @@ Moons:                      {} Moons
 
 ########################################################################################################################
 
-S = System()
-S.createPlanet()
-S.createSatellites()
-S.Show(3)
 """
 input("Test de la creation de systeme")
 again = True
