@@ -1,7 +1,6 @@
 """
 Regroupe toutes les classes d'objets et les fonctions pour le fonctionnement de :System.py:
 """
-import numpy as np
 from SystemRepository import *
 from SystemFunc import *
 import random as rd
@@ -189,10 +188,10 @@ class System:
                 if logLevel >= 2:
                     for thisSatelliteType in thisOrbit.dicoSatellites.keys():
                         NumberOfSatellites = thisOrbit.dicoSatellites[thisSatelliteType]
-                        if NumberOfSatellites != 0:
+                        if NumberOfSatellites is not 0:
                             print("   |      |----- {} {}".format(
                                 NumberOfSatellites,thisSatelliteType))
-                        if len(thisOrbit.Satellites) != 0:
+                        if len(thisOrbit.Satellites) is not 0:
                             for thisSatellite in thisOrbit.Satellites:
                                 if type(thisSatellite) is Planet and thisSatellite.MoonType is thisSatelliteType:
                                     print("   |      |        {} {}".format("+",thisSatellite))
