@@ -795,6 +795,14 @@ Hydrosphere:                {} %
 Cryosphere:                 {} %
 Land cover:                 {} %
 
++++ MINERAL SURVEY +++
+Minerals:                   {}
+Common Metals:              {}
+Rare Metals:                {}
+Industrial Crystals:        {}
+Gemstones:                  {}
+Radioactive:                {}
+
 Mean Temperature:           {}°C
 Global Climate:             {}
 Day Duration:               {} H
@@ -813,6 +821,12 @@ Moons:                      {} Moons
         utils.truncSignificatif(self.Hydroshpere,2),
         utils.truncSignificatif(self.Cryosphere,2),
         utils.truncSignificatif(self.Land,2),
+        self.MineralSurvey["Minerals"],
+        self.MineralSurvey["Common Metals"],
+        self.MineralSurvey["Rare Metals"],
+        self.MineralSurvey["Industrial Crystals"],
+        self.MineralSurvey["Gemstones"],
+        self.MineralSurvey["Radioactive"],
         round(self.MeanTemp),
         self.Climate,
         int(self.Day),
