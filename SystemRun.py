@@ -51,6 +51,11 @@ def BasicGeneration():
 
 def CreateSpecialPlanet(PlaneteType):
 	P = Planet()
-	while P.Type is not PlaneteType:
-		P.Autogen()
+	while P.Type != PlaneteType:
+		P = Planet()
 	P.Show()
+
+
+########################################################################################################
+
+#CreateSpecialPlanet("Small Terrestrial")
