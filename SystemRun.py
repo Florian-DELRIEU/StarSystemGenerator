@@ -49,13 +49,13 @@ def BasicGeneration():
 	S.createSatellites()
 	S.Show(3)
 
-def CreateSpecialPlanet(PlaneteType):
+def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 	P = Planet()
-	while P.Type != PlaneteType:
+	while P.Type != PlaneteType or P.Zone != PlaneteZone:
 		P = Planet()
 	P.Show()
 
 
 ########################################################################################################
 
-#CreateSpecialPlanet("Small Terrestrial")
+CreateSpecialPlanet("Small Terrestrial","Inner")
