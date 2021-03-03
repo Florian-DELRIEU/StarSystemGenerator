@@ -38,6 +38,7 @@ def UserSystem():
 	return S
 
 def TestSatellites():
+	S = System()
 	S.createPlanet()
 	S.createSatellites()
 	S.Show()
@@ -47,3 +48,9 @@ def BasicGeneration():
 	S.createPlanet()
 	S.createSatellites()
 	S.Show(3)
+
+def CreateSpecialPlanet(PlaneteType):
+	P = Planet()
+	while P.Type is not PlaneteType:
+		P.Autogen()
+	P.Show()
