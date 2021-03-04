@@ -826,7 +826,7 @@ Moons:                      {} Moons
         self.MineralSurvey["Rare Metals"],
         self.MineralSurvey["Industrial Crystals"],
         self.MineralSurvey["Gemstones"],
-        self.MineralSurvey["Radioactive"],
+        self.MineralSurvey["Radioactives"],
         round(self.MeanTemp),
         self.Climate,
         int(self.Day),
