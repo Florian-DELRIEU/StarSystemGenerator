@@ -794,6 +794,9 @@ Main Composition:           {}
 Hydrosphere:                {} %
 Cryosphere:                 {} %
 Land cover:                 {} %
+Volcanism:                  {} %
+Tectonic activity:          {} %
+Humidity:                   {} %
 
 +++ MINERAL SURVEY +++
 Minerals:                   {}
@@ -808,6 +811,7 @@ Global Climate:             {}
 Day Duration:               {} H
 
 Moons:                      {} Moons
+Global Notes:               {}
         """.format(
         self.Type,Parent,
         self.Zone,self.Distance,
@@ -821,6 +825,9 @@ Moons:                      {} Moons
         utils.truncSignificatif(self.Hydroshpere,2),
         utils.truncSignificatif(self.Cryosphere,2),
         utils.truncSignificatif(self.Land,2),
+        self.Volcanism,
+        self.TectonicActivity,
+        self.Humidity,
         self.MineralSurvey["Minerals"],
         self.MineralSurvey["Common Metals"],
         self.MineralSurvey["Rare Metals"],
@@ -830,7 +837,8 @@ Moons:                      {} Moons
         round(self.MeanTemp),
         self.Climate,
         int(self.Day),
-        self.nbSatellites
+        self.nbSatellites,
+        self.Note
         )
         txtSat = ""
         for thisSat in self.Satellites:
