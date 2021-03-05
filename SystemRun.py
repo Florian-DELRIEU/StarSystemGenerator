@@ -54,6 +54,7 @@ def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 	while P.Type != PlaneteType or P.Zone != PlaneteZone:
 		P = Planet()
 	P.Show()
+	return P
 
 
 ########################################################################################################
