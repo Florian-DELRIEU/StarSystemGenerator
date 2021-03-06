@@ -59,4 +59,4 @@ def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 
 ########################################################################################################
 
-P = CreateSpecialPlanet("Small Terrestrial","Inner")
+#P = CreateSpecialPlanet("Small Terrestrial","Inner")
