@@ -1,5 +1,11 @@
 """
 Regroupe toutes les classes d'objets et les fonctions pour le fonctionnement de :System.py:
+Il y a différentes :Objet:
+    - :System: Systeme solaire
+    - :Star: Etoiles
+    - :Orbite: Orbite des Etoiles ne contenant pas les objets planètes mais certaines infos
+    - :Sattellite: Lunes et Astéroides
+    - :Planet: Toutes les planètes avec les détails
 """
 import numpy as np
 from SystemRepository import *
@@ -11,13 +17,23 @@ from MyPack.Convert import *
 ########################################################################################################################
 class System:
     """
-    Objet Type: Systeme Solaire
-        - Par défaut un systeme va se générer automatiquement de manière aléatoire
+        Objet Type: Systeme Solaire
+        + Par défaut (auto = True) un systeme va se générer automatiquement de manière aléatoire
                 + Les étoiles
                 + Les orbites dans chaque étoiles (les type de planetes sont générer mais les objets ne sont pas crées)
-        - :self.clearOrbit: Pour nettoyer les orbites qui ne sont pas censé exister
+        + Si :auto = False: cela va générer un systeme preconfiguré (voir self.__init__)
+        - self.Star : Liste regroupant les étoiles
+        - self.Type : Définie le type de system selon le nombre d'étoiles (Binaire, Solitaire, ...)
+        - self.nbOrbit = Nombre total d'orbite dans le systeme
+        - self.nbRogueOrbit = Nombre d'orbite de planètes volées (rogue planets)
+        - self._nbStar = Nombre d'étoiles déterminer par le tirage aléotoire lors de la génération du :System:
+        - self.nbStar = Nombre d'étoiles determiner par la longueur de la liste :self.Star:
     """
     def __init__(self,auto=True):
+        """
+        Situation initiale
+        :param auto: Determine la génération aléatoire ou non du systeme
+        """
     # Initialisation
         self.Star = []  # Liste regroupant les etoiles
         self.nbRogueOrbit = 0
@@ -29,6 +45,9 @@ class System:
         if auto: self.Autogen()  # Lance la creation auto si :auto:=vrai
 
     def __repr__(self):
+        """
+        Determine comment afficher l'objet lorqu'il est appelé
+        """
         return "{} system with {} orbits".format(
             self.Type,self.nbOrbit
         )
@@ -55,7 +74,8 @@ class System:
 
     def createRogue(self,nbRogue):
         """
-        Ajoute une planète "Rogue" a l'une des étoiles du système
+        Ajoute une planète "Rogue" a l'une des étoiles du système. Ces planètes obéissent a des règles de génération
+            différentes.
         :param nbRogue: Nombre de planètes à ajouter
         """
         for _ in np.arange(nbRogue):  # _ remplace la variable muette
@@ -64,7 +84,7 @@ class System:
 
     def determineType(self):
         """
-        Fonction permettant de définir le type de systeme en fonction de :_nbOrbit:
+        Fonction permettant de définir le type de systeme (Solitaire, Binaire) en fonction de :_nbStar:
         """
         if   self._nbStar == 1: self.Type = "Solitary"
         elif self._nbStar == 2: self.Type = "Binary"
@@ -73,7 +93,7 @@ class System:
 
     def addAllStar(self):
         """
-        Ajoute toutes les :self._nbStar: étoiles dans le system
+        Ajoute :_nbStar: étoiles dans le :System: et definie l'étoile principales et ses compangons
         """
         for i in np.arange(self._nbStar):
             if i==0:    IsPrimary = True  # La premiere étoiles est l'étoile principale
@@ -82,7 +102,7 @@ class System:
 
     def addStar(self,Auto=True,IsPrimary=False):
         """
-        Ajoute une étoile
+        Ajoute une étoile aléatoire au systeme
         :param Auto: Definie si la génération auto est activé lors de la creation de l'étoile
         :param IsPrimary: Si :True:, l'étoile est primaire
         """
@@ -91,9 +111,9 @@ class System:
 
     def delStar(self,star):
         """
-        Supprime l'étoile
-        :param star: Objet étoile a supprimer. Si :Star:=int() supprime l'étoile qui a cet indice
-        :return:
+        Supprime l'étoile selon son indice ou l'objet assigné
+        :param star: - Si un :int(): est entré, alors détruit l'étoile avec l'indice associé
+                     - Si un objet :Star: est entré, alors détruit cette étoile
         """
         if type(star) == int():
             self.Star.remove(self.Star[star])
@@ -111,7 +131,7 @@ class System:
 
     def clearorbit(self):
         """
-        Supprime les orbites vides ou mal places dans tout le systeme
+        Supprime les orbites vides ou mal places dans tout le systeme qui ne sont pas censé exister
         """
         for curStar in self.Star:
             for curOrbit in curStar.Orbit:
@@ -121,21 +141,27 @@ class System:
 
     def createSatellites(self):
         """
-        Creer les objets satellites dans toutes les orbites du systeme
+        Creer les objets satellites dans toutes les orbites du systeme (voir l'objet :Orbit:)
+        Fait appel à la fonction des objets :Orbit: de :System:
         """
         for thisStar in self.Star:
             for thisOrbit in thisStar.Orbit:
                 thisOrbit.createSatellites()
 
     def createPlanet(self):
-        """Creer les objets planetes dans toutes les orbites du systeme"""
+        """
+        Creer les objets planetes dans toutes les orbites du systeme
+        Fait appel à la fonction des objets :Orbit: de :System:
+        """
         for thisStar in self.Star:
             for thisOrbit in thisStar.Orbit:
                 thisOrbit.createPlanet()
 
     def getPlanet(self,StarIndice,OrbitIndice):
         """
-        Recupere l'objet planete dans le systeme si il existe
+        Recupere l'objet planete dans le systeme si il existe. Moyen plus rapide que de passer dans les listes des
+            étoiles et des planètes
+            - getPlanet(1,3) = self.Star[1].Orbit[3].Planet
         :param StarIndice: Indice de l'étoile où se situe la planète
         :param OrbitIndice: Indice de la planète
         """
@@ -202,10 +228,19 @@ class System:
 class Star:
     """
     Objet type: Etoiles
+    -   self.Orbit: Liste regroupant les orbites de l'étoiles
+    -   self._nbOrbit: Nombre cible d'orbite selon la génération aléatoire
+    -   self.nbOrbit: Nombre courant d'orbite. Longueur de la liste :self.Orbit:
+    -   self.Distance: Distance d'éloignement par rapport à l'étoile principale (0 si principale)
+    -   self.IsPrimary: :True: si etoile primaire
+    -   self.IsDwarf = :True: si l'étoile est Naine ou pas
+    -   self.Class,self.Decimal,self.Size: Categorie d'étoile selon la classification universelle
+    -   self.FullClassName: Recupere le nom selon sa category ("G3V" par exemple)
+    -   self.MaxRange: Distance max d'éloignement des orbites
+    -   self.Note: Notes diverse sur l'étoile en question
     """
     def __init__(self,Auto=True,IsPrimary=True):
         """
-
         :param Auto: Defini si la génération est auto
         :param IsPrimary: Défini si l'étoile est primaire ou pas
         """
@@ -216,7 +251,7 @@ class Star:
         self.IsPrimary = IsPrimary  # Si etoile primaire ou companion etc...
         self.IsDwarf = False  # Si l'étoile est Naine ou pas
         self.Class,self.Decimal,self.Size = StarIs("G3V")  # Categorie d'étoile par défaut
-        self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom du parent
+        self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom
         self.MaxRange = int()
         self.Note = dict()
         if Auto: self.Autogen(IsPrimary=IsPrimary)
@@ -265,6 +300,11 @@ class Star:
         for _ in np.arange(self._nbOrbit):  self.addOrbit()  # Ajoute toutes les orbites
 
     def addOrbit(self,IsRogue=False):
+        """
+        Ajoute une orbite à l'étoile
+        :param IsRogue: Ajoute une Rogue si :True:
+        :return: Nouvelle orbite dans la liste
+        """
     #  Distance max en fonction de l'étoile
         if self.Size == "IV":   self.MaxRange = 5
         else:                   self.MaxRange = 13
@@ -278,8 +318,7 @@ class Star:
         Attention il faut renommer les orbites après leurs suppression car ça entraine des erreurs pour la suite
         Pour cela utilisez self.RenameOrbit()
         :param orbit: Orbite a supprimer
-        :param log: si True avertit l'user de la suppression de l'orbite
-        :return:
+        :param log: si True averti l'user de la suppression de l'orbite
         """
         if orbit == int():
             try:
@@ -295,6 +334,10 @@ class Star:
         self.nbOrbit = len(self.Orbit)
 
     def WriteNote(self):
+        """
+        Ecris des infos diverse complémentaire en fonction du tirage et de sa catégorie
+        :return: Sous forme de dictionnaire :DicoNote:
+        """
         DicoNote = dict()
         if   self.Class == "W":
             DicoNote["Surface Temperature"] = [30000,150000]  #in K
@@ -333,9 +376,21 @@ class Star:
 
 ########################################################################################################################
 class Orbit:
+    """
+    Objet de Type Orbite
+    -   self.Parent: Nom de l'étoile parente
+    -   self.IsRogue: l'orbite est Rogue si :True:
+    -   self.OrbitDistance: Rayon de l'orbite
+    -   self.Zone: Zone habitable ou non selon le rayon et la catégorie de l'étoile
+    -   self.Contain: Type de planète que doit contient l'orbite utilisé par l'objet :Planet:
+    -   self.AsteroidBeltType: si pas :None: alors determine le type de la ceinture d'astéroide
+    -   self.AsteroidComposition: Composition de la ceinture
+    -   self.nbSatellites: Nombre de satellites
+    -   self.dicoSatellites: Regroupe le nombre de satellites par type
+    -   self.Satellites: Listes de satellites issue de :self.dicoSatellites:
+    """
     def __init__(self,Auto=True,itsStar=None,IsRogue=False):
         """
-        Objet de Type Orbite
         :param itsStar: Objet :Star: parente
         :param IsRogue: si :True: creer une orbite rogue
         :param Auto: si generation auto ou non
@@ -433,6 +488,10 @@ class Orbit:
 class Satellite:
     """
     Uniquement les petits satellites sans atmosphere mais avec des caractéristiques utiles
+    -   self.Composition: Composition du satellite
+    -   self.Type: Type du satellite
+    -   self.Size: Taille
+    -   self.Distance: Distance par rapport à sa planète
     """
     def __init__(self,SatType,auto=True):
         self.Composition = list()
@@ -456,6 +515,15 @@ class Satellite:
 
 ########################################################################################################################
 class Planet:
+    """
+    Objet de type planète
+    -   self.haveOrbit: False si la planète est générer seule
+    -   self.Zone: ["Inner","Habitable","Outer"]
+    -   self.Satellites: Liste de satellites
+    -   self.nbSatellites: Nombre de satellites selon les infos de son :Orbit:
+    -   self.Distance: Distance par rapport au soleil
+
+    """
     def __init__(self, auto=True, itsOrbit=None, MoonType=None):
         if itsOrbit is None:
             self.haveOrbit = False
@@ -726,12 +794,24 @@ Main Composition:           {}
 Hydrosphere:                {} %
 Cryosphere:                 {} %
 Land cover:                 {} %
+Volcanism:                  {} %
+Tectonic activity:          {} %
+Humidity:                   {} %
+
++++ MINERAL SURVEY +++
+Minerals:                   {}
+Common Metals:              {}
+Rare Metals:                {}
+Industrial Crystals:        {}
+Gemstones:                  {}
+Radioactive:                {}
 
 Mean Temperature:           {}°C
 Global Climate:             {}
 Day Duration:               {} H
 
 Moons:                      {} Moons
+Global Notes:               {}
         """.format(
         self.Type,Parent,
         self.Zone,self.Distance,
@@ -745,10 +825,20 @@ Moons:                      {} Moons
         utils.truncSignificatif(self.Hydroshpere,2),
         utils.truncSignificatif(self.Cryosphere,2),
         utils.truncSignificatif(self.Land,2),
+        self.Volcanism,
+        self.TectonicActivity,
+        self.Humidity,
+        self.MineralSurvey["Minerals"],
+        self.MineralSurvey["Common Metals"],
+        self.MineralSurvey["Rare Metals"],
+        self.MineralSurvey["Industrial Crystals"],
+        self.MineralSurvey["Gemstones"],
+        self.MineralSurvey["Radioactives"],
         round(self.MeanTemp),
         self.Climate,
         int(self.Day),
-        self.nbSatellites
+        self.nbSatellites,
+        self.Note
         )
         txtSat = ""
         for thisSat in self.Satellites:
@@ -761,10 +851,6 @@ Moons:                      {} Moons
 
 ########################################################################################################################
 
-S = System()
-S.createPlanet()
-S.createSatellites()
-S.Show(3)
 """
 input("Test de la creation de systeme")
 again = True

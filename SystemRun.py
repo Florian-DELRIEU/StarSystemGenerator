@@ -1,3 +1,6 @@
+"""
+Fonctions utilisant :SystemGen: pour la génération de systemes
+"""
 from SystemGen import *
 import numpy as np
 
@@ -35,12 +38,25 @@ def UserSystem():
 	return S
 
 def TestSatellites():
+	S = System()
 	S.createPlanet()
 	S.createSatellites()
 	S.Show()
 
-def MakePlanet(PlaneteType):
+def BasicGeneration():
+	S = System()
+	S.createPlanet()
+	S.createSatellites()
+	S.Show(3)
+
+def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 	P = Planet()
-	while P.Type is not PlaneteType:
-		P.Autogen()
-	P.Show(3)
+	while P.Type != PlaneteType or P.Zone != PlaneteZone:
+		P = Planet()
+	P.Show()
+	return P
+
+
+########################################################################################################
+
+#P = CreateSpecialPlanet("Small Terrestrial","Inner")
