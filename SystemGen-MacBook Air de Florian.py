@@ -1,11 +1,11 @@
 """
 Regroupe toutes les classes d'objets et les fonctions pour le fonctionnement de :System.py:
 """
-from SystemRepository import *
+from Functions.Tables import *
 from SystemFunc import *
 import random as rd
 import MyPack.Utilities as utils
-from MyPack.Convert import *
+
 
 ########################################################################################################################
 class System:

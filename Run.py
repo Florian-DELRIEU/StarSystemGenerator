@@ -1,7 +1,7 @@
 """
 Fonctions utilisant :SystemGen: pour la génération de systemes
 """
-from SystemGen import *
+from Class.SystemGen import *
 import numpy as np
 
 def Test1(howmany=10):
