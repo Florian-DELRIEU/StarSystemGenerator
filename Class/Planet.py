@@ -1,3 +1,5 @@
+from Functions.Functions import *
+
 class Planet:
     """
     Objet de type planète

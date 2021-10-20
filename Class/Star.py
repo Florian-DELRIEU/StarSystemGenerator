@@ -1,3 +1,6 @@
+from Class.Orbit import Orbit
+from Functions.Functions import *
+
 class Star:
     """
     Objet type: Etoiles

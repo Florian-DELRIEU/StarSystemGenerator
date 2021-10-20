@@ -4,7 +4,7 @@ Regroupement de fonction essentielles pour le fonctionnement de :SystemGen:
 import random as rd
 from MyPack.Convert import *
 import MyPack.Utilities as utils
-from Tables import *
+#
 
 def choice(dico):  # Fonction pour faire un choix l'objet dico
     """
@@ -195,6 +195,7 @@ def determineMineralSurvey(PlanetaryType):
 
 
 def MoonAsPlanet(MoonType,Zone):
+    from Tables import InnerZone,HabitableZone,OuterZone
     Type = str()
     if MoonType in ["HugeMoon"]:
         # Liste des type de planete que peut devenir la lune

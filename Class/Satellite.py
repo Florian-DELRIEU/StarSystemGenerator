@@ -1,3 +1,5 @@
+from Functions.Functions import *
+
 class Satellite:
     """
     Uniquement les petits satellites sans atmosphere mais avec des caractéristiques utiles

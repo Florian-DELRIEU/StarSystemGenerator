@@ -1,3 +1,7 @@
+from Functions.Functions import *
+from Functions.Tables import *
+from Class import Star, Planet
+
 class System:
     """
         Objet Type: Systeme Solaire
