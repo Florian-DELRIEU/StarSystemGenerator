@@ -1,8 +1,14 @@
+from Class.System import *
+from Class.Planet import *
+from Functions.Functions import *
+import numpy as np
+
 """
 Fonctions utilisant :SystemGen: pour la génération de systemes
 """
-from SystemGen import *
-import numpy as np
+#from Class import System,Planet
+#from Functions.Functions import *
+#import numpy as np
 
 def Test1(howmany=10):
 	"""
@@ -14,7 +20,7 @@ def Test1(howmany=10):
 		S = System()
 		print(S)
 		S.clearorbit()
-		for starindic in S.Star:
+		for starindic in S.Star_list:
 			curstar = getattr(S,starindic)
 			if len(curstar.OrbitList) is not curstar.NbOrbit:
 				print("Error")
@@ -23,7 +29,7 @@ def Test1(howmany=10):
 
 def TestDetermineDistance(howmany=10):
 	error = 0
-	for i in np.arange(howmany):
+	for _ in np.arange(howmany):
 		try:
 			DetermineDistance("Terrestrial")
 		except:
@@ -60,3 +66,4 @@ def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 ########################################################################################################
 
 #P = CreateSpecialPlanet("Small Terrestrial","Inner")
+S = System()
