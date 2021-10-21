@@ -1,6 +1,8 @@
 from Functions.Functions import *
 from Functions.Tables import *
 from Class import Star, Planet
+import random as rd
+import numpy as np
 
 class System:
     """

@@ -1,10 +1,15 @@
+import random as rd
+import numpy as np
+from MyPack.Convert import Csv2Dict
+from MyPack.Utilities import getFromDict
+
 """
 Regroupement de fonction essentielles pour le fonctionnement de :SystemGen:
 """
-import random as rd
-from MyPack.Convert import *
-import MyPack.Utilities as utils
-#
+#import random as rd
+#from MyPack.Convert import *
+#import MyPack.Utilities as utils
+
 
 def choice(dico):  # Fonction pour faire un choix l'objet dico
     """
@@ -202,19 +207,19 @@ def MoonAsPlanet(MoonType,Zone):
         AvailableList = ["Terrestrial", "Geoactive", "Ultra Hostile", "Desert", "Oceanic", "Glaciated", "Exotic",
                          "Protoplanet","Ice World"]
         # Choix prédéfinie
-        if Zone in ["Inner"]:      Type = choice(utils.getFromDict(InnerZone, AvailableList))
-        if Zone in ["Habitable"]:  Type = choice(utils.getFromDict(HabitableZone, AvailableList))
-        if Zone in ["Outer"]:      Type = choice(utils.getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(getFromDict(InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(getFromDict(HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(getFromDict(OuterZone, AvailableList))
     if MoonType in ["LargeMoon"]:
         AvailableList = ["Small Terrestrial", "Geoactive", "Ultra Hostile", "Dirty SnowBall", "Ice World"
             , "Exotic", "Protoplanet"]
-        if Zone in ["Inner"]:      Type = choice(utils.getFromDict(InnerZone, AvailableList))
-        if Zone in ["Habitable"]:  Type = choice(utils.getFromDict(HabitableZone, AvailableList))
-        if Zone in ["Outer"]:      Type = choice(utils.getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(getFromDict(InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(getFromDict(HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(getFromDict(OuterZone, AvailableList))
     if MoonType in ["MediumMoon"]:
         AvailableList = ["Mesoplanet", "Protoplanet"]
-        if Zone in ["Inner"]:      Type = choice(utils.getFromDict(InnerZone, AvailableList))
-        if Zone in ["Habitable"]:  Type = choice(utils.getFromDict(HabitableZone, AvailableList))
-        if Zone in ["Outer"]:      Type = choice(utils.getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(getFromDict(InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(getFromDict(HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(getFromDict(OuterZone, AvailableList))
 
     return Type

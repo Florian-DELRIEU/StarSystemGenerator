@@ -1,4 +1,6 @@
 from Functions.Functions import *
+import random as rd
+import numpy as np
 
 class Satellite:
     """

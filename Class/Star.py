@@ -1,5 +1,8 @@
-from Class.Orbit import Orbit
+from Class import Orbit
 from Functions.Functions import *
+from Functions.Tables import *
+import random as rd
+import numpy as np
 
 class Star:
     """

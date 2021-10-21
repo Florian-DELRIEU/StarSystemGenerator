@@ -1,9 +1,13 @@
+from Class import System, Planet
+from Functions.Functions import *
+import numpy as np
+
 """
 Fonctions utilisant :SystemGen: pour la génération de systemes
 """
-from Class import System,Planet
-from Functions.Functions import *
-import numpy as np
+#from Class import System,Planet
+#from Functions.Functions import *
+#import numpy as np
 
 def Test1(howmany=10):
 	"""
@@ -24,7 +28,7 @@ def Test1(howmany=10):
 
 def TestDetermineDistance(howmany=10):
 	error = 0
-	for i in np.arange(howmany):
+	for _ in np.arange(howmany):
 		try:
 			DetermineDistance("Terrestrial")
 		except:
