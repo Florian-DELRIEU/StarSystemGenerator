@@ -21,14 +21,14 @@ class Planet:
             if self.Zone == "Inner":        self.Type = choice(InnerZone)
             elif self.Zone == "Habitable":  self.Type = choice(HabitableZone)
             elif self.Zone == "Outer":      self.Type = choice(OuterZone)
-            self.Satellites = list()
+            self.Satellites_list = list()
             self.Distance = "Unknowed"
             self.nbSatellites = 0
         else:
             self.haveOrbit = True  # Vrai si :itsOrbit: est non nul
             self.Type = itsOrbit.Contain
             self.Zone = itsOrbit.Zone
-            self.Satellites = itsOrbit.Satellites
+            self.Satellites_list = itsOrbit.Satellites_list
             self.Parent = itsOrbit.Parent
             self.Distance = itsOrbit.OrbitDistance
             self.nbSatellites = itsOrbit.nbSatellites
@@ -249,7 +249,7 @@ class Planet:
         if self.Humidity > 100 : self.Humidity = 100
     # self.Day
         self.TotalMoonSize = 0
-        for sat in self.Satellites :
+        for sat in self.Satellites_list :
             self.TotalMoonSize += sat.Size
         self.Day = roll(1,10)+roll(1,10)+roll(1,10) + self.TotalMoonSize/1000
     # self.MeanTemp
@@ -333,7 +333,7 @@ Global Notes:               {}
         self.Note
         )
         txtSat = ""
-        for thisSat in self.Satellites:
+        for thisSat in self.Satellites_list:
             currentLine = str(thisSat)
             txtSat += "      +-- {} \n".format(currentLine)
 

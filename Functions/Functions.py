@@ -2,7 +2,8 @@ import random as rd
 import numpy as np
 from MyPack.Convert import Csv2Dict
 from MyPack.Utilities import getFromDict
-
+CSV_path = "CSV/"
+Function_path = "Functions/"
 """
 Regroupement de fonction essentielles pour le fonctionnement de :SystemGen:
 """
@@ -58,7 +59,7 @@ def DetermineZone(StarType, OrbitDistance):
 # Dans le fichier .csv :Decimal: = 0ou5 uniquement
     if Decimal in [5,6,7,8,9]: Decimal = 5
     else: Decimal = 0
-    cur = Csv2Dict("ZoneStarSize"+Size+".csv")  # Recupere le bon fichier .csv
+    cur = Csv2Dict(CSV_path+"ZoneStarSize"+Size+".csv")  # Recupere le bon fichier .csv
     cur = cur[Class+str(Decimal)]  # Recupere la zone en fonction de la position
     curindic = int(np.floor(OrbitDistance))  # Indice dans le .csv = distance
     if curindic >= len(cur):  # Si trop eloigné
@@ -69,7 +70,7 @@ def DetermineZone(StarType, OrbitDistance):
 
 
 def DetermineDistance(Type):
-    CsvFile = Csv2Dict("MoonDistance.csv")
+    CsvFile = Csv2Dict(CSV_path+"MoonDistance.csv")
     cur = roll(1,10)
     if Type == "Small Gas Giant":
         if cur <= 7: output =                           CsvFile["Close Orbit"][roll(0,18)]
@@ -207,19 +208,19 @@ def MoonAsPlanet(MoonType,Zone):
         AvailableList = ["Terrestrial", "Geoactive", "Ultra Hostile", "Desert", "Oceanic", "Glaciated", "Exotic",
                          "Protoplanet","Ice World"]
         # Choix prédéfinie
-        if Zone in ["Inner"]:      Type = choice(getFromDict(InnerZone, AvailableList))
-        if Zone in ["Habitable"]:  Type = choice(getFromDict(HabitableZone, AvailableList))
-        if Zone in ["Outer"]:      Type = choice(getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(getFromDict(Function_path+InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(getFromDict(Function_path+HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(getFromDict(Function_path+OuterZone, AvailableList))
     if MoonType in ["LargeMoon"]:
         AvailableList = ["Small Terrestrial", "Geoactive", "Ultra Hostile", "Dirty SnowBall", "Ice World"
             , "Exotic", "Protoplanet"]
-        if Zone in ["Inner"]:      Type = choice(getFromDict(InnerZone, AvailableList))
-        if Zone in ["Habitable"]:  Type = choice(getFromDict(HabitableZone, AvailableList))
-        if Zone in ["Outer"]:      Type = choice(getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(getFromDict(Function_path+InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(getFromDict(Function_path+HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(getFromDict(Function_path+OuterZone, AvailableList))
     if MoonType in ["MediumMoon"]:
         AvailableList = ["Mesoplanet", "Protoplanet"]
-        if Zone in ["Inner"]:      Type = choice(getFromDict(InnerZone, AvailableList))
-        if Zone in ["Habitable"]:  Type = choice(getFromDict(HabitableZone, AvailableList))
-        if Zone in ["Outer"]:      Type = choice(getFromDict(OuterZone, AvailableList))
+        if Zone in ["Inner"]:      Type = choice(getFromDict(Function_path+InnerZone, AvailableList))
+        if Zone in ["Habitable"]:  Type = choice(getFromDict(Function_path+HabitableZone, AvailableList))
+        if Zone in ["Outer"]:      Type = choice(getFromDict(Function_path+OuterZone, AvailableList))
 
     return Type

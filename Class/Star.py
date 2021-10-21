@@ -1,4 +1,4 @@
-from Class import Orbit
+from Class.Orbit import *
 from Functions.Functions import *
 from Functions.Tables import *
 import random as rd
@@ -23,9 +23,9 @@ class Star:
         :param Auto: Defini si la génération est auto
         :param IsPrimary: Défini si l'étoile est primaire ou pas
         """
-        self.Orbit = []
+        self.Orbit_list = []
         self._nbOrbit = 0  # Nombre cible d'orbite
-        self.nbOrbit = len(self.Orbit)  # Nombre courant d'orbite
+        self.nbOrbit = len(self.Orbit_list)  # Nombre courant d'orbite
         self.Distance = None
         self.IsPrimary = IsPrimary  # Si etoile primaire ou companion etc...
         self.IsDwarf = False  # Si l'étoile est Naine ou pas
@@ -88,8 +88,8 @@ class Star:
         if self.Size == "IV":   self.MaxRange = 5
         else:                   self.MaxRange = 13
     # Creation dans la liste
-        self.Orbit.append(Orbit(itsStar=self,IsRogue=IsRogue))
-        self.nbOrbit = len(self.Orbit)
+        self.Orbit_list.append(Orbit(itsStar=self, IsRogue=IsRogue))
+        self.nbOrbit = len(self.Orbit_list)
 
     def delOrbit(self,orbit,log=True):
         """
@@ -101,16 +101,16 @@ class Star:
         """
         if orbit == int():
             try:
-                self.Orbit[orbit]
+                self.Orbit_list[orbit]
             except:
                 print("Impossible de recuperer cette orbite")
         else:
             try:
-                self.Orbit.remove(orbit)
+                self.Orbit_list.remove(orbit)
                 if log: print("{} has been deleted".format(orbit))
             except:
                 print("This orbit don't exist")
-        self.nbOrbit = len(self.Orbit)
+        self.nbOrbit = len(self.Orbit_list)
 
     def WriteNote(self):
         """

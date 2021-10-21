@@ -1,6 +1,6 @@
+from Class.Star import *
 from Functions.Functions import *
 from Functions.Tables import *
-from Class import Star, Planet
 import random as rd
 import numpy as np
 
@@ -24,7 +24,7 @@ class System:
         :param auto: Determine la génération aléatoire ou non du systeme
         """
     # Initialisation
-        self.Star = []  # Liste regroupant les etoiles
+        self.Star_list = []  # Liste regroupant les etoiles
         self.nbRogueOrbit = 0
         self._nbStar = 1
         self.nbStar = 1
@@ -54,7 +54,7 @@ class System:
     # self.Star
         self.addAllStar()
     # self.NbOrbit
-        for curStar in self.Star:
+        for curStar in self.Star_list:
             self.nbOrbit += curStar.nbOrbit
     # self.RogueOrbit
         self.nbRogueOrbit = choice(RoguePlanet)     # Combien de Rogue Planet ?
@@ -68,7 +68,7 @@ class System:
         :param nbRogue: Nombre de planètes à ajouter
         """
         for _ in np.arange(nbRogue):  # _ remplace la variable muette
-            thisStar = rd.choice(self.Star)  # Choisi parmis les etoiles du systeme
+            thisStar = rd.choice(self.Star_list)  # Choisi parmis les etoiles du systeme
             thisStar.addOrbit(IsRogue=True)       # Ajoute l'orbit Rogue a l'etoile choisis
 
     def determineType(self):
@@ -95,8 +95,8 @@ class System:
         :param Auto: Definie si la génération auto est activé lors de la creation de l'étoile
         :param IsPrimary: Si :True:, l'étoile est primaire
         """
-        self.Star.append(Star(Auto=Auto,IsPrimary=IsPrimary))
-        self.nbStar = len(self.Star)  # Mets a jour le param :nbStar:
+        self.Star_list.append(Star(Auto=Auto, IsPrimary=IsPrimary))
+        self.nbStar = len(self.Star_list)  # Mets a jour le param :nbStar:
 
     def delStar(self,star):
         """
@@ -105,25 +105,25 @@ class System:
                      - Si un objet :Star: est entré, alors détruit cette étoile
         """
         if type(star) == int():
-            self.Star.remove(self.Star[star])
+            self.Star_list.remove(self.Star_list[star])
         else:
-            self.Star.remove(star)
-            self.nbStar = len(self.Star)
+            self.Star_list.remove(star)
+            self.nbStar = len(self.Star_list)
 
     def refresh_nbOrbit(self):
         """
         Raffraichi le nombre d'orbite dans le système
         """
         self.nbOrbit = 0
-        for thisStar in self.Star:
+        for thisStar in self.Star_list:
             self.nbOrbit += thisStar.nbOrbit
 
     def clearorbit(self):
         """
         Supprime les orbites vides ou mal places dans tout le systeme qui ne sont pas censé exister
         """
-        for curStar in self.Star:
-            for curOrbit in curStar.Orbit:
+        for curStar in self.Star_list:
+            for curOrbit in curStar.Orbit_list:
                 if curOrbit.Zone in ["Star","TooHot","OutofRange"] or curOrbit.Contain == "Empty":
                     curStar.delOrbit(curOrbit)
         self.refresh_nbOrbit()
@@ -133,8 +133,8 @@ class System:
         Creer les objets satellites dans toutes les orbites du systeme (voir l'objet :Orbit:)
         Fait appel à la fonction des objets :Orbit: de :System:
         """
-        for thisStar in self.Star:
-            for thisOrbit in thisStar.Orbit:
+        for thisStar in self.Star_list:
+            for thisOrbit in thisStar.Orbit_list:
                 thisOrbit.createSatellites()
 
     def createPlanet(self):
@@ -142,8 +142,8 @@ class System:
         Creer les objets planetes dans toutes les orbites du systeme
         Fait appel à la fonction des objets :Orbit: de :System:
         """
-        for thisStar in self.Star:
-            for thisOrbit in thisStar.Orbit:
+        for thisStar in self.Star_list:
+            for thisOrbit in thisStar.Orbit_list:
                 thisOrbit.createPlanet()
 
     def getPlanet(self,StarIndice,OrbitIndice):
@@ -155,7 +155,7 @@ class System:
         :param OrbitIndice: Indice de la planète
         """
         try:
-            return self.Star[StarIndice].Orbit[OrbitIndice].Planet
+            return self.Star_list[StarIndice].Orbit[OrbitIndice].Planet
         except:
             print("This planet don't exist")
 
@@ -166,7 +166,7 @@ class System:
         :param OrbitIndice: Indice de la planète
         """
         try:
-            return self.Star[StarIndice].Orbit[OrbitIndice]
+            return self.Star_list[StarIndice].Orbit[OrbitIndice]
         except:
             print("This orbit don't exist")
 
@@ -178,7 +178,7 @@ class System:
         :param SatelliteIndice: Indice du satellite
         """
         try:
-            return self.Star[StarIndice].Orbit[Orbiteindice].Satellites[SatelliteIndice]
+            return self.Star_list[StarIndice].Orbit[Orbiteindice].Satellites_list[SatelliteIndice]
         except:
             print("This satellites don't exist")
 
@@ -191,23 +191,23 @@ class System:
         """
         print(self)
         if not 1 <= logLevel <= 3: print("Log level inconnue")
-        for thisStar in self.Star:
+        for thisStar in self.Star_list:
             print(" *"+str(thisStar))
-            for thisOrbit in thisStar.Orbit:
+            for thisOrbit in thisStar.Orbit_list:
                 if thisOrbit.Contain in ["Empty","None"] or thisOrbit.Zone in ["OutofRange","Star","TooHot"]:
                                                                                                         dot = "o"
                 elif thisOrbit.Contain in ["Small Terrestrial","Terrestrial","Super Terrestrial",
                                          "Desert", "Oceanic", "Glaciated"]:                             dot = "H"
                 else:
                                                                                                         dot = "+"
-                print("   {}----- {} {}".format(thisStar.Orbit.index(thisOrbit),dot,str(thisOrbit)))
+                print("   {}----- {} {}".format(thisStar.Orbit_list.index(thisOrbit), dot, str(thisOrbit)))
                 if logLevel >= 2:
                     for thisSatelliteType in thisOrbit.dicoSatellites.keys():
                         NumberOfSatellites = thisOrbit.dicoSatellites[thisSatelliteType]
                         if NumberOfSatellites != 0:
                             print("   |      |----- {} {}".format(
                                 NumberOfSatellites,thisSatelliteType))
-                        if len(thisOrbit.Satellites) != 0:
-                            for thisSatellite in thisOrbit.Satellites:
+                        if len(thisOrbit.Satellites_list) != 0:
+                            for thisSatellite in thisOrbit.Satellites_list:
                                 if type(thisSatellite) is Planet and thisSatellite.MoonType is thisSatelliteType:
                                     print("   |      |        {} {}".format("+",thisSatellite))
