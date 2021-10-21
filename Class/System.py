@@ -211,3 +211,16 @@ class System:
                             for thisSatellite in thisOrbit.Satellites_list:
                                 if type(thisSatellite) is Planet and thisSatellite.MoonType is thisSatelliteType:
                                     print("   |      |        {} {}".format("+",thisSatellite))
+
+    def OrderingPlanets(self):
+        temp_list = list()
+        for thisStar in self.Star_list:
+            for thisOrbit in thisStar.Orbit_list:
+                temp_list.append({
+                    "Orbit":thisOrbit,
+                    "Distance":thisOrbit.OrbitDistance
+                })
+            temp_list.sort(key=lambda x: x.get('Distance'))
+            thisStar.Orbit_list = [el for el[0] in temp_list]
+        for el in temp_list:
+            print(el.get("Distance"))

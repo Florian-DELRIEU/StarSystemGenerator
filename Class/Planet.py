@@ -78,7 +78,7 @@ class Planet:
         elif self.Zone == "Habitable":  modifiers += 1
         elif self.Zone == "Outer":      modifiers += 2
         if   self.Size < 5000:          modifiers -= 2
-        elif self.Size > 8000:          modifiers -= 2
+        elif self.Size > 8000:          modifiers += 1
         # Atmosphere
         if self.Type in ["Proto Planet"]:
             self.AtmosphereComposition = rollchoicedico(ProtoPlanetAtm, (1, 10), modifiers)
