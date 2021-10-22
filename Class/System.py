@@ -182,13 +182,17 @@ class System:
         except:
             print("This satellites don't exist")
 
-    def Show(self, logLevel=2):
+    def Show(self, logLevel=2, PrintInOrder=False):
         """
         Affiche un visuel du systeme en fonction de :loglevel:
         :param logLevel:
             + si =1 affiche les étoiles et les orbites autour
             + si =2 ajoute les satellites pour chaques étoiles
+        :param PrintInOrder:
+            - if TRUE, run OrderingPlanets(self) to show the orbit in order of distance
         """
+        if PrintInOrder:
+            self.OrderingPlanets()
         print(self)
         if not 1 <= logLevel <= 3: print("Log level inconnue")
         for thisStar in self.Star_list:
@@ -214,13 +218,11 @@ class System:
 
     def OrderingPlanets(self):
         temp_list = list()
-        for thisStar in self.Star_list:
-            for thisOrbit in thisStar.Orbit_list:
-                temp_list.append({
-                    "Orbit":thisOrbit,
-                    "Distance":thisOrbit.OrbitDistance
+        for thisStar in self.Star_list:             # for each stars
+            for thisOrbit in thisStar.Orbit_list:   # for each orbit
+                temp_list.append({                  # temporary list for prepare the sorting
+                    "Orbit":thisOrbit,              # object to sort
+                    "Distance":thisOrbit.OrbitDistance  # sorting argument
                 })
-            temp_list.sort(key=lambda x: x.get('Distance'))
-            thisStar.Orbit_list = [el for el[0] in temp_list]
-        for el in temp_list:
-            print(el.get("Distance"))
+            temp_list.sort(key=lambda x: x.get('Distance'))  # sorting regarding the distance
+            thisStar.Orbit_list = [el["Orbit"] for el in temp_list]

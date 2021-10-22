@@ -84,3 +84,4 @@ def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 S = System()
 #S.Show()
 S.OrderingPlanets()
+S.Show()
