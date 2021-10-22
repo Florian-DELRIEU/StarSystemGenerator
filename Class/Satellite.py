@@ -1,4 +1,4 @@
-from src.SSG.Functions.Functions import *
+from Functions.Functions import *
 import random as rd
 import numpy as np
 

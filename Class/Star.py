@@ -1,6 +1,6 @@
-from src.SSG.Class.Orbit import *
-from src.SSG.Functions.Functions import *
-from src.SSG.Functions.Tables import *
+from Class.Orbit import *
+from Functions.Functions import *
+from Functions.Tables import *
 import random as rd
 import numpy as np
 
