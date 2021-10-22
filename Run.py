@@ -67,3 +67,4 @@ def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 
 #P = CreateSpecialPlanet("Small Terrestrial","Inner")
 S = System()
+S.Show()

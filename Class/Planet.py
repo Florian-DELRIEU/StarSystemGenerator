@@ -1,5 +1,5 @@
-from Functions.Functions import *
-from Functions.Tables import *
+from src.SSG.Functions.Functions import *
+from src.SSG.Functions.Tables import *
 from MyPack.Utilities import truncSignificatif
 import random as rd
 import numpy as np
