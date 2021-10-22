@@ -204,7 +204,7 @@ class System:
                                          "Desert", "Oceanic", "Glaciated"]:                             dot = "H"
                 else:
                                                                                                         dot = "+"
-                print("   {}----- {} {}".format(thisStar.Orbit_list.index(thisOrbit), dot, str(thisOrbit)))
+                print("   {}----- {} {}".format(thisStar.Orbit_list.index(thisOrbit)+1, dot, str(thisOrbit)))
                 if logLevel >= 2:
                     for thisSatelliteType in thisOrbit.dicoSatellites.keys():
                         NumberOfSatellites = thisOrbit.dicoSatellites[thisSatelliteType]
