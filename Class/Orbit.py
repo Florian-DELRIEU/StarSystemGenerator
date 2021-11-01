@@ -52,7 +52,7 @@ class Orbit:
         print("{} deleted".format(self))
 
     def Autogen(self):
-        self.OrbitDistance = truncSignificatif(rd.uniform(0,self.MaxRange),2)  # Distance de l'orbite
+        self.OrbitDistance = rollDistance(self)  # Distance de l'orbite
         self.Zone = DetermineZone(self.Parent,self.OrbitDistance)  # Determine la zone où se situe l'orbite
         if   self.Zone == "Inner":      self.Contain = choice(InnerZone)
         elif self.Zone == "Habitable":  self.Contain = choice(HabitableZone)

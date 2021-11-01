@@ -1,7 +1,8 @@
 import random as rd
 import numpy as np
 from MyPack.Convert import Csv2Dict
-from MyPack.Utilities import getFromDict
+from MyPack.Math import y_value
+from MyPack.Utilities import getFromDict, truncSignificatif
 CSV_path = "CSV/"
 Function_path = "Functions/"
 """
@@ -217,3 +218,10 @@ def MoonAsPlanet(MoonType,Zone):
         if Zone in ["Habitable"]:  Type = choice(getFromDict(Function_path+HabitableZone, AvailableList))
         if Zone in ["Outer"]:      Type = choice(getFromDict(Function_path+OuterZone, AvailableList))
     return Type
+
+def rollDistance(object):
+    OrbitDistance_array = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+    UA_array = [0.2,0.4,0.7,1,1.6,2.8,5.2,10,19.6,38.8,77.2,154.0,307.6,614]
+    roll = rd.uniform(0, object.MaxRange)
+    output = y_value(UA_array,OrbitDistance_array,roll)
+    return truncSignificatif(output,2)
