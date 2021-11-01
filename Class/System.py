@@ -85,8 +85,7 @@ class System:
         Ajoute :_nbStar: étoiles dans le :System: et definie l'étoile principales et ses compangons
         """
         for i in np.arange(self._nbStar):
-            if i==0:    IsPrimary = True  # La premiere étoiles est l'étoile principale
-            else:       IsPrimary = False
+            IsPrimary = i==0
             self.addStar(IsPrimary=IsPrimary)
 
     def addStar(self,Auto=True,IsPrimary=False):
@@ -217,7 +216,7 @@ class System:
                                     print("   |      |        {} {}".format("+",thisSatellite))
 
     def OrderingPlanets(self):
-        temp_list = list()
+        temp_list = []
         for thisStar in self.Star_list:             # for each stars
             for thisOrbit in thisStar.Orbit_list:   # for each orbit
                 temp_list.append({                  # temporary list for prepare the sorting

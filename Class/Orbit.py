@@ -37,10 +37,10 @@ class Orbit:
         self.Zone = str()
         self.Contain = str()
         self.nbSatellites = 0
-        self.Satellites_list = list()
+        self.Satellites_list = []
         self.AsteroidBeltType = None
         self.AsteroidComposition = None
-        self.dicoSatellites = dict()
+        self.dicoSatellites = {}
         if Auto: self.Autogen()
 
     def __repr__(self):

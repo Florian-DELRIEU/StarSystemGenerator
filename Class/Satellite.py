@@ -11,15 +11,14 @@ class Satellite:
     -   self.Distance: Distance par rapport à sa planète
     """
     def __init__(self,SatType,auto=True):
-        self.Composition = list()
+        self.Composition = []
         self.Type = SatType
         self.Size = int()
         self.Distance = int()
         if auto: self.Autogen()
 
     def __repr__(self):
-        txt = "{} at {} orbit radii".format(self.Type,self.Distance)
-        return txt
+        return "{} at {} orbit radii".format(self.Type,self.Distance)
 
     def Autogen(self):
     #  self.Size

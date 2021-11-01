@@ -21,7 +21,7 @@ class Planet:
             if self.Zone == "Inner":        self.Type = choice(InnerZone)
             elif self.Zone == "Habitable":  self.Type = choice(HabitableZone)
             elif self.Zone == "Outer":      self.Type = choice(OuterZone)
-            self.Satellites_list = list()
+            self.Satellites_list = []
             self.Distance = "Unknowed"
             self.nbSatellites = 0
         else:
@@ -34,7 +34,7 @@ class Planet:
             self.nbSatellites = itsOrbit.nbSatellites
         self.MoonType = MoonType
         self.ImperialClassification = None
-        self.MineralSurvey = dict()
+        self.MineralSurvey = {}
         self.IsHabitable = False
         self.IsGasGiant = False
         self.AtmosphereComposition = "Unknowed"
@@ -65,6 +65,7 @@ class Planet:
         return txt
 
     def Autogen(self):
+        # sourcery skip: assign-if-exp, hoist-statement-from-if, merge-duplicate-blocks, min-max-identity, remove-redundant-if, switch
     # self.size
         if self.MoonType is None: self.Size = rollSize(self.Type)
         else:                     self.Size = rollSize(self.MoonType)
@@ -265,8 +266,7 @@ class Planet:
             self.ImperialClassification = choice(ImperialClass)
 
     def Show(self):
-        if not self.haveOrbit:      Parent = "n Unknow"
-        else:                       Parent = " "+ str(self.Parent)
+        Parent = "n Unknow" if not self.haveOrbit else " "+ str(self.Parent)
         txt = """+++ NO NAMED +++: {} planet around a{} star
 Segmentum:      +++ NO ENTRY +++
 Sector:         +++ NO ENTRY +++
