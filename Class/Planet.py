@@ -1,3 +1,4 @@
+from Functions.OthersFunctions import setGravLock
 from Functions.RollingFunctions import *
 from Functions.Tables import *
 from MyPack.Utilities import truncSignificatif
@@ -54,6 +55,7 @@ class Planet:
         self.Day = int()
         self.Note = str()
         self.TotalMoonSize = float()
+        self.isGravLocked = False
         if auto:    self.Autogen()
 
     def __call__(self, *args, **kwargs): pass
@@ -65,8 +67,6 @@ class Planet:
         return txt
 
     def Autogen(self):
-        # sourcery skip: assign-if-exp, hoist-statement-from-if, merge-duplicate-blocks, min-max-identity, remove-redundant-if, switch
-    # self.size
         if self.MoonType is None: self.Size = rollSize(self.Type)
         else:                     self.Size = rollSize(self.MoonType)
         self.SizeInEarthRadius = self.Size / 12000  # Affiche la taille de la planete en fonction de celle de la Terre
@@ -249,10 +249,14 @@ class Planet:
         if self.Humidity < 0 : self.Humidity = 0
         if self.Humidity > 100 : self.Humidity = 100
     # self.Day
+        self.isGravLocked = setGravLock(self)
         self.TotalMoonSize = 0
         for sat in self.Satellites_list :
             self.TotalMoonSize += sat.Size
-        self.Day = roll(1,10)+roll(1,10)+roll(1,10) + self.TotalMoonSize/1000
+        if self.isGravLocked:
+            self.Day = 0
+        else:
+            self.Day = roll(1,10)+roll(1,10)+roll(1,10) + self.TotalMoonSize/1000
     # self.MeanTemp
         self.MeanTemp = 40 - self.Cryosphere/2
     # self.Climate
