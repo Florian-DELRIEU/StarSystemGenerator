@@ -1,5 +1,5 @@
-from src.SSG.Class.Satellite import *
-from src.SSG.Class.Planet import *
+from Class.Satellite import *
+from Class.Planet import *
 from Functions.Tables import *
 from Functions.Functions import *
 import random as rd

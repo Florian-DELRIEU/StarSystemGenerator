@@ -128,7 +128,7 @@ ImperialClass["Quarantined "] = 1
 ImperialClass["Shrine "] = 2
 
 """
-Les clés dictionnaires ci dessous regroupe les types de satéllites de chaque orbites et contiennent les tuples qui
+Les clés dictionnaires ci dessous regroupe les types de satéllites de chaque orbites et contiennent les tuples qui 
 définissent les nombre min et max de chaque satellites de manière aléatoire
 DicoExemple["Lune"] = (valeurmin,valeurmax)
 
