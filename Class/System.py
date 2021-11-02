@@ -1,5 +1,5 @@
 from Class.Star import *
-from Functions.Functions import *
+from Functions.RollingFunctions import *
 from Functions.Tables import *
 import random as rd
 import numpy as np

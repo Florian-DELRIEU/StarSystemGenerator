@@ -1,5 +1,5 @@
 from Class.Orbit import *
-from Functions.Functions import *
+from Functions.RollingFunctions import *
 from Functions.Tables import *
 import random as rd
 import numpy as np
@@ -120,7 +120,7 @@ class Star:
         if   self.Class == "W":
             DicoNote["Surface Temperature"] = [30000,150000]  #in K
             DicoNote["Color"] = "Blue-Purple"
-            DicoNote["Solar Mass"] = "Over 20"
+            DicoNote["Solar Mass"] = 20
         elif self.Class == "O":
             DicoNote["Surface Temperature"] = [30000,60000]  #in K
             DicoNote["Color"] = "Blue"

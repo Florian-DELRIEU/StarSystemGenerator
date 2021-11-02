@@ -1,6 +1,6 @@
 from Class.System import *
 from Class.Planet import *
-from Functions.Functions import *
+from Functions.RollingFunctions import *
 import numpy as np
 
 """
