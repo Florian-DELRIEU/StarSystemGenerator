@@ -1,10 +1,8 @@
+import Class.Planet
 from Class.Satellite import *
-from Class.Planet import *
-from Functions.Tables import *
 from Functions.RollingFunctions import *
-import random as rd
-import numpy as np
-from MyPack.Utilities import truncSignificatif
+from Functions.Tables import *
+
 
 class Orbit:
     """
@@ -97,7 +95,8 @@ class Orbit:
         for k in self.dicoSatellites.keys(): self.nbSatellites += self.dicoSatellites[k]
 
     def createPlanet(self):
-        setattr(self,"Planet", Planet(itsOrbit=self))
+        if self.Contain != "Asteroid Belt":
+            setattr(self,"Planet", Class.Planet.Planet(itsOrbit=self))
 
     def createSatellites(self):
         """
@@ -109,7 +108,7 @@ class Orbit:
                 if currentSatellitesType in ["HugeMoon","LargeMoon","MediumMoon"]:  # selon la taille
                     PlanetMoonType = MoonAsPlanet(currentSatellitesType,self.Zone)    # Creation en tant que :Planet:
                     self.Contain = PlanetMoonType  # Pour utiliser la meme methode de creation que les planete
-                    self.Satellites_list.append(Planet(itsOrbit=self, MoonType=currentSatellitesType))
+                    self.Satellites_list.append(Class.Planet.Planet(itsOrbit=self, MoonType=currentSatellitesType))
                 else:
                     self.Satellites_list.append(Satellite(currentSatellitesType))  # Creer l'objet :satellite: de Type :k:
         self.Contain = cacheContain  # recupere la veritable valeur

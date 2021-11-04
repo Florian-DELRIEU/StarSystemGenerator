@@ -1,8 +1,8 @@
-from Class.Star import *
+from Class.Planet import Planet
+from Class.Star import Star
 from Functions.RollingFunctions import *
 from Functions.Tables import *
-import random as rd
-import numpy as np
+
 
 class System:
     """
@@ -225,3 +225,4 @@ class System:
                 })
             temp_list.sort(key=lambda x: x.get('Distance'))  # sorting regarding the distance
             thisStar.Orbit_list = [el["Orbit"] for el in temp_list]
+
