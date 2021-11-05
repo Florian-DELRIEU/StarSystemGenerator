@@ -46,8 +46,9 @@ class Orbit:
         if self.IsRogue: txt = "Rogue " + txt
         return txt
 
-    def __del__(self):
-        print("{} deleted".format(self))
+    def __del__(self,show=True):
+        if show:
+            print(f"{self} deleted")
 
     def Autogen(self):
         self.OrbitDistance = rollDistance(self)  # Distance de l'orbite

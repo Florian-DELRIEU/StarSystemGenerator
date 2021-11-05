@@ -1,8 +1,10 @@
 import random as rd
+
 import numpy as np
 from MyPack.Convert import Csv2Dict
 from MyPack.Math import y_value
 from MyPack.Utilities import getFromDict, truncSignificatif
+
 CSV_path = "CSV/"
 Function_path = "Functions/"
 """
@@ -50,7 +52,7 @@ def DetermineZone(StarType, OrbitDistance):
     Class, Decimal, Size = StarIs(StarType)
 # Dans le fichier .csv :Decimal: = 0ou5 uniquement
     Decimal = 5 if Decimal in [5,6,7,8,9] else 0
-    cur = Csv2Dict(CSV_path+"ZoneStarSize"+Size+".csv")  # Recupere le bon fichier .csv
+    cur = Csv2Dict(CSV_path+"ZoneStarSize"+Size+".csv")  # Recupere le bon fichier .csv en tant que :dict:
     cur = cur[Class+str(Decimal)]  # Recupere la zone en fonction de la position
     curindic = int(np.floor(OrbitDistance))  # Indice dans le .csv = distance
     if curindic >= len(cur):  # Si trop eloigné
