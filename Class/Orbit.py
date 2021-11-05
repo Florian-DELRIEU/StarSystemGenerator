@@ -42,7 +42,7 @@ class Orbit:
         if Auto: self.Autogen()
 
     def __repr__(self):
-        txt = "{} ({} orbit) at {} Orbit-Distance".format(self.Contain, self.Zone, self.OrbitDistance)
+        txt = "{} ({} orbit) at {} UA".format(self.Contain, self.Zone, self.OrbitDistance)
         if self.IsRogue: txt = "Rogue " + txt
         return txt
 
@@ -97,6 +97,8 @@ class Orbit:
     def createPlanet(self):
         if self.Contain != "Asteroid Belt":
             setattr(self,"Planet", Class.Planet.Planet(itsOrbit=self))
+        else:
+            print("No planet found here !")
 
     def createSatellites(self):
         """

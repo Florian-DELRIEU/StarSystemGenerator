@@ -1,6 +1,5 @@
-from Class.Planet import Planet
 
-def setGravLock(planet:Planet):
+def setGravLock(planet):
     """
     TODO
         - Ajouter des paramètres

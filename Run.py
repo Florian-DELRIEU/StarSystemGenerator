@@ -77,17 +77,18 @@ def CreateSpecialPlanet(PlaneteType: str,PlaneteZone: str):
 	P.Show()
 	return P
 
-def CreateSpecialOrbit(OrbitContain: str,OrbitZone: str):
+def CreateSpecialOrbit(OrbitContain:str, OrbitZone:str = ""):
+	if OrbitZone == "": OrbitZone = rd.choice(["Inner","Habitable","Outer"])
 	O = Orbit()
 	while O.Contain != OrbitContain or O.Zone != OrbitZone:
 		O = Orbit()
 	return O
 ########################################################################################################
 
-P = CreateSpecialPlanet("Small Terrestrial","Inner")
+#P = CreateSpecialPlanet("Small Terrestrial","Inner")
 #S = System()
 #S.Show()
 #S.OrderingPlanets()
 #S.Show()
 
-#O = CreateSpecialOrbit("Asteroid Belt")
+O = CreateSpecialOrbit("Asteroid Belt","Outer")

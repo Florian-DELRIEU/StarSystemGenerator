@@ -1,9 +1,11 @@
+import random as rd
+
+import numpy as np
 from Functions.OthersFunctions import setGravLock
 from Functions.RollingFunctions import *
 from Functions.Tables import *
 from MyPack.Utilities import truncSignificatif
-import random as rd
-import numpy as np
+
 
 class Planet:
     """
@@ -271,71 +273,45 @@ class Planet:
 
     def Show(self):
         Parent = "n Unknow" if not self.haveOrbit else " "+ str(self.Parent)
-        txt = """+++ NO NAMED +++: {} planet around a{} star
+        txt = f"""+++ NO NAMED +++: {self.Type} planet around a{Parent} star
 Segmentum:      +++ NO ENTRY +++
 Sector:         +++ NO ENTRY +++
 Sub-Sector:     +++ NO ENTRY +++
 
-Global Survey:              in {} zone ({} orbit-distance)
-Diameter:                   {} km ({} Terra radium)
-Surface:                    {} km²
-Gravity on surface:         {}g
-Satellites:                 {}
+Global Survey:              in {self.Zone} zone ({self.Distance} orbit-distance)
+Diameter:                   {self.Size} km ({self.SizeInEarthRadius} Terra radium)
+Surface:                    {self.Surface} km²
+Gravity on surface:         {self.Gravity}g
+Satellites:                 {self.nbSatellites}
 
-Imperial classification:    {}world
+Imperial classification:    {self.ImperialClassification} world
 Approximate Population:     +++ NO ENTRY +++
 
-Atmosphere:                 {} atmosphere
-Main Composition:           {}
-Hydrosphere:                {} %
-Cryosphere:                 {} %
-Land cover:                 {} %
-Volcanism:                  {} %
-Tectonic activity:          {} %
-Humidity:                   {} %
+Atmosphere:                 {self.AtmDensity} atmosphere
+Main Composition:           {self.AtmosphereComposition}
+Hydrosphere:                {truncSignificatif(self.Hydroshpere,2)} %
+Cryosphere:                 {truncSignificatif(self.Cryosphere,2)} %
+Land cover:                 {truncSignificatif(self.Land,2)} %
+Volcanism:                  {self.Volcanism} %
+Tectonic activity:          {self.TectonicActivity} %
+Humidity:                   {self.Humidity} %
 
 +++ MINERAL SURVEY +++
-Minerals:                   {}
-Common Metals:              {}
-Rare Metals:                {}
-Industrial Crystals:        {}
-Gemstones:                  {}
-Radioactive:                {}
+Minerals:                   {self.MineralSurvey["Minerals"]}
+Common Metals:              {self.MineralSurvey["Common Metals"]}
+Rare Metals:                {self.MineralSurvey["Rare Metals"]}
+Industrial Crystals:        {self.MineralSurvey["Industrial Crystals"]}
+Gemstones:                  {self.MineralSurvey["Gemstones"]}
+Radioactive:                {self.MineralSurvey["Radioactives"]}
 
-Mean Temperature:           {}°C
-Global Climate:             {}
-Day Duration:               {} H
+Mean Temperature:           {self.MeanTemp}°C
+Global Climate:             {self.Climate}
+Day Duration:               {self.Day} H
+Gravitation Lock:           {self.isGravLocked}
 
-Moons:                      {} Moons
-Global Notes:               {}
-        """.format(
-        self.Type,Parent,
-        self.Zone,self.Distance,
-        self.Size,truncSignificatif(self.SizeInEarthRadius,3),
-        truncSignificatif(np.pi * self.Size ** 2 / 4,5),
-        truncSignificatif(self.Gravity,3),
-        self.nbSatellites,
-        self.ImperialClassification,
-        self.AtmDensity,
-        self.AtmosphereComposition,
-        truncSignificatif(self.Hydroshpere,2),
-        truncSignificatif(self.Cryosphere,2),
-        truncSignificatif(self.Land,2),
-        self.Volcanism,
-        self.TectonicActivity,
-        self.Humidity,
-        self.MineralSurvey["Minerals"],
-        self.MineralSurvey["Common Metals"],
-        self.MineralSurvey["Rare Metals"],
-        self.MineralSurvey["Industrial Crystals"],
-        self.MineralSurvey["Gemstones"],
-        self.MineralSurvey["Radioactives"],
-        round(self.MeanTemp),
-        self.Climate,
-        int(self.Day),
-        self.nbSatellites,
-        self.Note
-        )
+Moons:                      {self.nbSatellites} Moons
+Global Notes:               {self.Note}
+        """
         txtSat = ""
         for thisSat in self.Satellites_list:
             currentLine = str(thisSat)

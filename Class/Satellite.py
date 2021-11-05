@@ -1,6 +1,8 @@
-from Functions.RollingFunctions import *
 import random as rd
+
 import numpy as np
+from Functions.RollingFunctions import *
+
 
 class Satellite:
     """
@@ -18,7 +20,7 @@ class Satellite:
         if auto: self.Autogen()
 
     def __repr__(self):
-        return "{} at {} orbit radii".format(self.Type,self.Distance)
+        return f"{self.Type} at {self.Distance} orbit radii"
 
     def Autogen(self):
     #  self.Size
