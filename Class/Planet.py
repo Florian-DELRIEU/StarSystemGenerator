@@ -77,9 +77,12 @@ class Planet:
     # self.atmosphere
         # modifiers
         modifiers = 0
-        if   self.Zone == "Inner":      modifiers -= 2
-        elif self.Zone == "Habitable":  modifiers += 1
-        elif self.Zone == "Outer":      modifiers += 2
+        if self.Zone == "Habitable":
+            modifiers += 1
+        elif self.Zone == "Inner":
+            if   self.Zone == "Inner":      modifiers -= 2
+        elif self.Zone == "Outer":
+            modifiers += 2
         if   self.Size < 5000:          modifiers -= 2
         elif self.Size > 8000:          modifiers += 1
         # Atmosphere
@@ -133,8 +136,7 @@ class Planet:
             self.TectonicActivity =     roll(5,9)*10
 
         elif self.Type in ["Mesoplanet"]:
-            if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (0              ,0)
-            elif self.Zone == "Habitable":      self.Hydroshpere, self.Cryosphere = (0              ,0)
+            if self.Zone == "Inner" or self.Zone == "Habitable":            self.Hydroshpere, self.Cryosphere = (0              ,0)
             else:                               self.Hydroshpere, self.Cryosphere = (0              ,roll(1,20)*5)
             self.Volcanism =            roll(0,8)
             self.TectonicActivity =     0
@@ -183,16 +185,15 @@ class Planet:
             self.TectonicActivity =     roll(0,4)*10
 
         elif self.Type in ["Reducing"]:
-            if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (0              ,0)
-            elif self.Zone == "Habitable":      self.Hydroshpere, self.Cryosphere = (0              ,0)
-            else:                               self.Hydroshpere, self.Cryosphere = (None           ,None)
+            if self.Zone in ["Inner", "Habitable"]:
+                if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (0              ,0)
+            else:
+                self.Hydroshpere, self.Cryosphere = (None           ,None)
             self.Volcanism =            roll(0,6)*10
             self.TectonicActivity =     roll(0,4)*10
 
         elif self.Type in ["Ultra Hostile"]:
             if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (None           ,None)
-            elif self.Zone == "Habitable":      self.Hydroshpere, self.Cryosphere = (None           ,None)
-            else:                               self.Hydroshpere, self.Cryosphere = (None           ,None)
             self.Volcanism =            roll(0,5)*10
             self.TectonicActivity =     roll(0,5)*10
 
@@ -204,34 +205,27 @@ class Planet:
             self.TectonicActivity =     roll(0,4)*10
 
         elif self.Type in ["Dirty SnowBall"]:
-            if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (None           ,None)
-            elif self.Zone == "Habitable":      self.Hydroshpere, self.Cryosphere = (None           ,None)
+            if self.Zone in ["Inner", "Habitable"]:            self.Hydroshpere, self.Cryosphere = (None           ,None)
             else:                               self.Hydroshpere, self.Cryosphere = (None           ,roll(6,20)*5)
             self.Volcanism =            roll(0,3)*10
             self.TectonicActivity =     roll(0,3)*10
 
         elif self.Type in ["Ice World"]:
-            if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (None           ,None)
-            elif self.Zone == "Habitable":      self.Hydroshpere, self.Cryosphere = (None           ,None)
+            if self.Zone == "Inner" or self.Zone == "Habitable":            self.Hydroshpere, self.Cryosphere = (None           ,None)
             else:                               self.Hydroshpere, self.Cryosphere = (None           ,roll(14,20)*5)
             self.Volcanism =            roll(0,3)*10
             self.TectonicActivity =     roll(0,2)*10
 
         elif self.Type in ["Chthonian"]:
             if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (0              ,0)
-            elif self.Zone == "Habitable":      self.Hydroshpere, self.Cryosphere = (0              ,0)
-            else:                               self.Hydroshpere, self.Cryosphere = (0              ,0)
             self.Volcanism =            0
             self.TectonicActivity =     0
             self.Note = ["Some Dust and Ice gravity captured"]
 
         else:
             if self.Zone == "Inner":            self.Hydroshpere, self.Cryosphere = (0              ,0)
-            elif self.Zone == "Habitable":      self.Hydroshpere, self.Cryosphere = (0              ,0)
-            else:                               self.Hydroshpere, self.Cryosphere = (0              ,0)
             self.Volcanism =            0
             self.TectonicActivity =     0
-
     # Fait en sorte que la somme hydro+cryo ne depasse pas 100
         if self.Hydroshpere is None: self.Hydroshpere = 0
         if self.Cryosphere is None: self.Cryosphere = 0
@@ -240,16 +234,13 @@ class Planet:
             self.Cryosphere     = ( self.Cryosphere / (self.Hydroshpere+self.Cryosphere) )*100
     # self.land
         self.Land = 100 - (self.Hydroshpere + self.Cryosphere)
-        if self.Land < 0 : self.Land = 0
-        if self.Land > 100 : self.Land = 100
+        self.Land = max(self.Land, 0)
+        self.Land = min(self.Land, 100)
         if self.IsGasGiant: self.Land = 0
     # self.Humidity
-        if self.IsHabitable:
-            self.Humidity = (roll(1,10)+self.Hydroshpere)/2
-        else:
-            self.Humidity = 0
-        if self.Humidity < 0 : self.Humidity = 0
-        if self.Humidity > 100 : self.Humidity = 100
+        self.Humidity = (roll(1,10)+self.Hydroshpere)/2 if self.IsHabitable else 0
+        self.Humidity = max(self.Humidity, 0)
+        self.Humidity = min(self.Humidity, 100)
     # self.Day
         self.isGravLocked = setGravLock(self)
         self.TotalMoonSize = 0
