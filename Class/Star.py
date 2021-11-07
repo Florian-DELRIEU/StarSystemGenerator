@@ -1,7 +1,8 @@
-from Class.Orbit import *
-from Functions.RollingFunctions import *
-from Functions.Tables import *
-
+from src.SSG.Class.Orbit import *
+from src.SSG.Functions.Functions import *
+from src.SSG.Functions.Tables import *
+import random as rd
+import numpy as np
 
 class Star:
     """
@@ -31,7 +32,7 @@ class Star:
         self.Class,self.Decimal,self.Size = StarIs("G3V")  # Categorie d'étoile par défaut
         self.FullClassName = self.Class + str(self.Decimal) + self.Size  # Recupere le nom
         self.MaxRange = int()
-        self.Note = {}
+        self.Note = dict()
         if Auto: self.Autogen(IsPrimary=IsPrimary)
 
     def __repr__(self):
@@ -73,7 +74,7 @@ class Star:
         elif    self.Size == "III":     self._nbOrbit += 6
         if      self.Class == "M":      self._nbOrbit -= 6
         elif    self.Class == "K":      self._nbOrbit -= 3
-        self._nbOrbit = max(self._nbOrbit, 0)  # mets 0 si nb orbit inf à 0
+        if      self._nbOrbit < 0:      self._nbOrbit = 0  # mets 0 si inferieur a 0
         # self.Orbit
         for _ in np.arange(self._nbOrbit):  self.addOrbit()  # Ajoute toutes les orbites
 
@@ -84,7 +85,8 @@ class Star:
         :return: Nouvelle orbite dans la liste
         """
     #  Distance max en fonction de l'étoile
-        self.MaxRange = 5 if self.Size == "IV" else 13
+        if self.Size == "IV":   self.MaxRange = 5
+        else:                   self.MaxRange = 13
     # Creation dans la liste
         self.Orbit_list.append(Orbit(itsStar=self, IsRogue=IsRogue))
         self.nbOrbit = len(self.Orbit_list)
@@ -119,7 +121,7 @@ class Star:
         if   self.Class == "W":
             DicoNote["Surface Temperature"] = [30000,150000]  #in K
             DicoNote["Color"] = "Blue-Purple"
-            DicoNote["Solar Mass"] = 20
+            DicoNote["Solar Mass"] = "Over 20"
         elif self.Class == "O":
             DicoNote["Surface Temperature"] = [30000,60000]  #in K
             DicoNote["Color"] = "Blue"

@@ -1,8 +1,10 @@
-import Class.Planet
-from Class.Satellite import *
-from Functions.RollingFunctions import *
-from Functions.Tables import *
-
+from src.SSG.Class.Satellite import *
+from src.SSG.Class.Planet import *
+from src.SSG.Functions.Tables import *
+from src.SSG.Functions.Functions import *
+import random as rd
+import numpy as np
+from Utilities import truncDecimal
 
 class Orbit:
     """
@@ -35,23 +37,22 @@ class Orbit:
         self.Zone = str()
         self.Contain = str()
         self.nbSatellites = 0
-        self.Satellites_list = []
+        self.Satellites_list = list()
         self.AsteroidBeltType = None
         self.AsteroidComposition = None
-        self.dicoSatellites = {}
+        self.dicoSatellites = dict()
         if Auto: self.Autogen()
 
     def __repr__(self):
-        txt = "{} ({} orbit) at {} UA".format(self.Contain, self.Zone, self.OrbitDistance)
+        txt = "{} ({} orbit) at {} Orbit-Distance".format(self.Contain, self.Zone, self.OrbitDistance)
         if self.IsRogue: txt = "Rogue " + txt
         return txt
 
-    def __del__(self,show=True):
-        if show:
-            print(f"{self} deleted")
+    def __del__(self):
+        print("{} deleted".format(self))
 
     def Autogen(self):
-        self.OrbitDistance = rollDistance(self)  # Distance de l'orbite
+        self.OrbitDistance = truncDecimal(rd.uniform(0,self.MaxRange),2)  # Distance de l'orbite
         self.Zone = DetermineZone(self.Parent,self.OrbitDistance)  # Determine la zone où se situe l'orbite
         if   self.Zone == "Inner":      self.Contain = choice(InnerZone)
         elif self.Zone == "Habitable":  self.Contain = choice(HabitableZone)
@@ -96,10 +97,7 @@ class Orbit:
         for k in self.dicoSatellites.keys(): self.nbSatellites += self.dicoSatellites[k]
 
     def createPlanet(self):
-        if self.Contain != "Asteroid Belt":
-            setattr(self,"Planet", Class.Planet.Planet(itsOrbit=self))
-        else:
-            print("No planet found here !")
+        setattr(self,"Planet", Planet(itsOrbit=self))
 
     def createSatellites(self):
         """
@@ -111,7 +109,7 @@ class Orbit:
                 if currentSatellitesType in ["HugeMoon","LargeMoon","MediumMoon"]:  # selon la taille
                     PlanetMoonType = MoonAsPlanet(currentSatellitesType,self.Zone)    # Creation en tant que :Planet:
                     self.Contain = PlanetMoonType  # Pour utiliser la meme methode de creation que les planete
-                    self.Satellites_list.append(Class.Planet.Planet(itsOrbit=self, MoonType=currentSatellitesType))
+                    self.Satellites_list.append(Planet(itsOrbit=self, MoonType=currentSatellitesType))
                 else:
                     self.Satellites_list.append(Satellite(currentSatellitesType))  # Creer l'objet :satellite: de Type :k:
         self.Contain = cacheContain  # recupere la veritable valeur

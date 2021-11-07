@@ -1,6 +1,7 @@
-from Class.Planet import Planet
-from Class.System import System
-from Functions.RollingFunctions import *
+from Class.System import *
+from Class.Planet import *
+from Functions.Functions import *
+import numpy as np
 
 """
 Fonctions utilisant :SystemGen: pour la génération de systemes
@@ -8,6 +9,21 @@ Fonctions utilisant :SystemGen: pour la génération de systemes
 #from Class import System,Planet
 #from Functions.Functions import *
 #import numpy as np
+
+def SpeedTest():
+	import time as t
+	n = 0
+	Number_loop = 100
+	begin = t.time()
+	print("Generating... ")
+	while n <= Number_loop - 1:
+		n += 1
+		Planet
+	duration = t.time() - begin
+	print(duration)
+	speed = Number_loop/duration
+	print("Le programme génère ", speed, " planètes/secondes")
+
 
 def Test1(howmany=10):
 	"""
@@ -61,8 +77,19 @@ def CreateSpecialPlanet(PlaneteType,PlaneteZone):
 	P.Show()
 	return P
 
+def CreateSpecialSystem(NbOrbit):
+	S = System()
+	while S.nbOrbit != NbOrbit:
+		S = System()
+	S.Show()
+	return S
+
 
 ########################################################################################################
 
 #P = CreateSpecialPlanet("Small Terrestrial","Inner")
 S = System()
+S1 = S.__copy__()
+#S.Show()
+#S.OrderingPlanets()
+#S.Show()

@@ -1,8 +1,8 @@
-from Functions.OthersFunctions import setGravLock
-from Functions.RollingFunctions import *
-from Functions.Tables import *
-from MyPack.Utilities import truncSignificatif
-
+from src.SSG.Functions.Functions import *
+from src.SSG.Functions.Tables import *
+from Utilities import truncDecimal
+import random as rd
+import numpy as np
 
 class Planet:
     """
@@ -21,7 +21,7 @@ class Planet:
             if self.Zone == "Inner":        self.Type = choice(InnerZone)
             elif self.Zone == "Habitable":  self.Type = choice(HabitableZone)
             elif self.Zone == "Outer":      self.Type = choice(OuterZone)
-            self.Satellites_list = []
+            self.Satellites_list = list()
             self.Distance = "Unknowed"
             self.nbSatellites = 0
         else:
@@ -34,7 +34,7 @@ class Planet:
             self.nbSatellites = itsOrbit.nbSatellites
         self.MoonType = MoonType
         self.ImperialClassification = None
-        self.MineralSurvey = {}
+        self.MineralSurvey = dict()
         self.IsHabitable = False
         self.IsGasGiant = False
         self.AtmosphereComposition = "Unknowed"
@@ -55,18 +55,18 @@ class Planet:
         self.Note = str()
         self.Name = Name
         self.TotalMoonSize = float()
-        self.isGravLocked = False
         if auto:    self.Autogen()
 
     def __call__(self, *args, **kwargs): pass
 
     def __repr__(self):
-        txt = "(size: {} earth radius)".format(truncSignificatif(self.SizeInEarthRadius,3))
+        txt = "(size: {} earth radius)".format(truncDecimal(self.SizeInEarthRadius,3))
         if self.IsHabitable:    txt = "{} world ".format(self.Type) + txt
         else:                   txt = "{} planet ".format(self.Type) + txt
         return txt
 
     def Autogen(self):
+    # self.size
         if self.MoonType is None: self.Size = rollSize(self.Type)
         else:                     self.Size = rollSize(self.MoonType)
         self.SizeInEarthRadius = self.Size / 12000  # Affiche la taille de la planete en fonction de celle de la Terre
@@ -249,14 +249,10 @@ class Planet:
         if self.Humidity < 0 : self.Humidity = 0
         if self.Humidity > 100 : self.Humidity = 100
     # self.Day
-        self.isGravLocked = setGravLock(self)
         self.TotalMoonSize = 0
         for sat in self.Satellites_list :
             self.TotalMoonSize += sat.Size
-        if self.isGravLocked:
-            self.Day = 0
-        else:
-            self.Day = roll(1,10)+roll(1,10)+roll(1,10) + self.TotalMoonSize/1000
+        self.Day = roll(1,10)+roll(1,10)+roll(1,10) + self.TotalMoonSize/1000
     # self.MeanTemp
         self.MeanTemp = 40 - self.Cryosphere/2
     # self.Climate
@@ -270,46 +266,73 @@ class Planet:
             self.ImperialClassification = choice(ImperialClass)
 
     def Show(self):
-        Parent = "n Unknow" if not self.haveOrbit else " "+ str(self.Parent)
-        txt = f"""+++ NO NAMED +++: {self.Type} planet around a{Parent} star
+        if not self.haveOrbit:      Parent = "n Unknow"
+        else:                       Parent = " "+ str(self.Parent)
+        txt = """+++ NO NAMED +++: {} planet around a{} star
 Segmentum:      +++ NO ENTRY +++
 Sector:         +++ NO ENTRY +++
 Sub-Sector:     +++ NO ENTRY +++
 
-Global Survey:              in {self.Zone} zone ({self.Distance} orbit-distance)
-Diameter:                   {self.Size} km ({self.SizeInEarthRadius} Terra radium)
-Surface:                    {self.Surface} km²
-Gravity on surface:         {self.Gravity}g
-Satellites:                 {self.nbSatellites}
+Global Survey:              in {} zone ({} orbit-distance)
+Diameter:                   {} km ({} Terra radium)
+Surface:                    {} km²
+Gravity on surface:         {}g
+Satellites:                 {}
 
-Imperial classification:    {self.ImperialClassification} world
+Imperial classification:    {}world
 Approximate Population:     +++ NO ENTRY +++
 
-Atmosphere:                 {self.AtmDensity} atmosphere
-Main Composition:           {self.AtmosphereComposition}
-Hydrosphere:                {truncSignificatif(self.Hydroshpere,2)} %
-Cryosphere:                 {truncSignificatif(self.Cryosphere,2)} %
-Land cover:                 {truncSignificatif(self.Land,2)} %
-Volcanism:                  {self.Volcanism} %
-Tectonic activity:          {self.TectonicActivity} %
-Humidity:                   {self.Humidity} %
+Atmosphere:                 {} atmosphere
+Main Composition:           {}
+Hydrosphere:                {} %
+Cryosphere:                 {} %
+Land cover:                 {} %
+Volcanism:                  {} %
+Tectonic activity:          {} %
+Humidity:                   {} %
 
 +++ MINERAL SURVEY +++
-Minerals:                   {self.MineralSurvey["Minerals"]}
-Common Metals:              {self.MineralSurvey["Common Metals"]}
-Rare Metals:                {self.MineralSurvey["Rare Metals"]}
-Industrial Crystals:        {self.MineralSurvey["Industrial Crystals"]}
-Gemstones:                  {self.MineralSurvey["Gemstones"]}
-Radioactive:                {self.MineralSurvey["Radioactives"]}
+Minerals:                   {}
+Common Metals:              {}
+Rare Metals:                {}
+Industrial Crystals:        {}
+Gemstones:                  {}
+Radioactive:                {}
 
-Mean Temperature:           {self.MeanTemp}°C
-Global Climate:             {self.Climate}
-Day Duration:               {self.Day} H
-Gravitation Lock:           {self.isGravLocked}
+Mean Temperature:           {}°C
+Global Climate:             {}
+Day Duration:               {} H
 
-Moons:                      {self.nbSatellites} Moons
-Global Notes:               {self.Note}
-        """
+Moons:                      {} Moons
+Global Notes:               {}
+        """.format(
+        self.Type,Parent,
+        self.Zone,self.Distance,
+        self.Size,truncDecimal(self.SizeInEarthRadius,3),
+        truncDecimal(np.pi * self.Size ** 2 / 4,5),
+        truncDecimal(self.Gravity,3),
+        self.nbSatellites,
+        self.ImperialClassification,
+        self.AtmDensity,
+        self.AtmosphereComposition,
+        truncDecimal(self.Hydroshpere,2),
+        truncDecimal(self.Cryosphere,2),
+        truncDecimal(self.Land,2),
+        self.Volcanism,
+        self.TectonicActivity,
+        self.Humidity,
+        self.MineralSurvey["Minerals"],
+        self.MineralSurvey["Common Metals"],
+        self.MineralSurvey["Rare Metals"],
+        self.MineralSurvey["Industrial Crystals"],
+        self.MineralSurvey["Gemstones"],
+        self.MineralSurvey["Radioactives"],
+        round(self.MeanTemp),
+        self.Climate,
+        int(self.Day),
+        self.nbSatellites,
+        self.Note
+        )
         txtSat = ""
         for thisSat in self.Satellites_list:
             currentLine = str(thisSat)
