@@ -1,36 +1,30 @@
 import random as rd
+
 import numpy as np
 from MyPack.Convert import Csv2Dict
-from MyPack.Utilities import getFromDict
+from MyPack.Math import y_value
+from MyPack.Utilities import getFromDict, truncSignificatif
+
 CSV_path = "CSV/"
 Function_path = "Functions/"
 """
 Regroupement de fonction essentielles pour le fonctionnement de :SystemGen:
 """
-#import random as rd
-#from MyPack.Convert import *
-#import MyPack.Utilities as utils
 
-
-def choice(dico):  # Fonction pour faire un choix l'objet dico
+def choice(dico):    # Fonction pour faire un choix l'objet dico
     """
     :param dico: Dictionnaire dont les cles sont les valeurs des parametres, et les entrees sont les poids
     dico["valeur"] = poids
     :return: une valeur parmis dico.keys() pondere
     """
     KeyList = list(dico.keys())
-    WeightList = list()
-    for k in KeyList:
-        WeightList.append(dico[k])
+    WeightList = [dico[k] for k in KeyList]
     output = rd.choices(KeyList,WeightList)
     return output[0]
 
 
 def rolldico(dico):
-    output = dict()
-    for k in dico.keys():
-        output[k] = roll(dico[k][0],dico[k][1])
-    return output
+    return {k: roll(dico[k][0],dico[k][1]) for k in dico.keys()}
 
 
 def StarIs(Category=str()):
@@ -57,9 +51,8 @@ def DetermineZone(StarType, OrbitDistance):
     """
     Class, Decimal, Size = StarIs(StarType)
 # Dans le fichier .csv :Decimal: = 0ou5 uniquement
-    if Decimal in [5,6,7,8,9]: Decimal = 5
-    else: Decimal = 0
-    cur = Csv2Dict(CSV_path+"ZoneStarSize"+Size+".csv")  # Recupere le bon fichier .csv
+    Decimal = 5 if Decimal in [5,6,7,8,9] else 0
+    cur = Csv2Dict(CSV_path+"ZoneStarSize"+Size+".csv")  # Recupere le bon fichier .csv en tant que :dict:
     cur = cur[Class+str(Decimal)]  # Recupere la zone en fonction de la position
     curindic = int(np.floor(OrbitDistance))  # Indice dans le .csv = distance
     if curindic >= len(cur):  # Si trop eloigné
@@ -97,15 +90,15 @@ def roll(RangeDown,RangeUp):
     :return: 0 si result est inferieur a 0
     """
     result = rd.randint(RangeDown, RangeUp)
-    if result <= 0: result = 0
+    result = max(result, 0)
     return result
 
 
 def rollchoicedico(dico,rolltuple=tuple(),modifiers=int()):
     output = str()
     cur = roll(rolltuple[0],rolltuple[1]) + modifiers
-    if cur < rolltuple[0]: cur = rolltuple[0]
-    if cur > rolltuple[1]: cur = rolltuple[1]
+    cur = max(cur, rolltuple[0])
+    cur = min(cur, rolltuple[1])
     for k in dico.keys():
         Rangedown = dico[k][0]
         Rangeup = dico[k][1]
@@ -138,7 +131,7 @@ def rollSize(PlanetType):
 
 
 def determineClimate(Cryosphere,Hydrosphere,Humidity):
-    Climate = dict()
+    Climate = {}
     if   Cryosphere <= 30:  Cryosphere = "Low"
     elif Cryosphere >= 70:  Cryosphere = "High"
     else:                   Cryosphere = "Medium"
@@ -158,9 +151,9 @@ def determineClimate(Cryosphere,Hydrosphere,Humidity):
     Climate["Artic"] =              ("High","Medium","Medium")
 
     output = "Undetermined Climate"  # Climat par defaut
-    for currentClimate in Climate.keys():
+    for currentClimate, value in Climate.items():
         # Recupere un nouveau climat si le tuple correspond
-        if (Cryosphere,Hydrosphere,Humidity) == Climate[currentClimate]:
+        if (Cryosphere, Hydrosphere, Humidity) == value:
             output = currentClimate
 
     return output
@@ -201,7 +194,7 @@ def determineMineralSurvey(PlanetaryType):
 
 
 def MoonAsPlanet(MoonType,Zone):
-    from Tables import InnerZone,HabitableZone,OuterZone
+    from Functions.Tables import InnerZone,HabitableZone,OuterZone
     Type = str()
     if MoonType in ["HugeMoon"]:
         # Liste des type de planete que peut devenir la lune
@@ -222,5 +215,11 @@ def MoonAsPlanet(MoonType,Zone):
         if Zone in ["Inner"]:      Type = choice(getFromDict(Function_path+InnerZone, AvailableList))
         if Zone in ["Habitable"]:  Type = choice(getFromDict(Function_path+HabitableZone, AvailableList))
         if Zone in ["Outer"]:      Type = choice(getFromDict(Function_path+OuterZone, AvailableList))
-
     return Type
+
+def rollDistance(object):
+    OrbitDistance_array = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+    UA_array = [0.2,0.4,0.7,1,1.6,2.8,5.2,10,19.6,38.8,77.2,154.0,307.6,614]
+    roll = rd.uniform(0, object.MaxRange)
+    output = y_value(UA_array,OrbitDistance_array,roll)
+    return truncSignificatif(output,2)

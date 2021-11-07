@@ -1,5 +1,6 @@
-from Class.Star import *
-from Functions.Functions import *
+from Class.Planet import Planet
+from Class.Star import Star
+from Functions.RollingFunctions import *
 from Functions.Tables import *
 import random as rd
 import numpy as np
@@ -182,17 +183,13 @@ class System:
         except:
             print("This satellites don't exist")
 
-    def Show(self, logLevel=2, PrintInOrder=False):
+    def Show(self, logLevel=2):
         """
         Affiche un visuel du systeme en fonction de :loglevel:
         :param logLevel:
             + si =1 affiche les étoiles et les orbites autour
             + si =2 ajoute les satellites pour chaques étoiles
-        :param PrintInOrder:
-            - if TRUE, run OrderingPlanets(self) to show the orbit in order of distance
         """
-        if PrintInOrder:
-            self.OrderingPlanets()
         print(self)
         if not 1 <= logLevel <= 3: print("Log level inconnue")
         for thisStar in self.Star_list:
@@ -204,7 +201,7 @@ class System:
                                          "Desert", "Oceanic", "Glaciated"]:                             dot = "H"
                 else:
                                                                                                         dot = "+"
-                print("   {}----- {} {}".format(thisStar.Orbit_list.index(thisOrbit)+1, dot, str(thisOrbit)))
+                print("   {}----- {} {}".format(thisStar.Orbit_list.index(thisOrbit), dot, str(thisOrbit)))
                 if logLevel >= 2:
                     for thisSatelliteType in thisOrbit.dicoSatellites.keys():
                         NumberOfSatellites = thisOrbit.dicoSatellites[thisSatelliteType]
@@ -215,14 +212,3 @@ class System:
                             for thisSatellite in thisOrbit.Satellites_list:
                                 if type(thisSatellite) is Planet and thisSatellite.MoonType is thisSatelliteType:
                                     print("   |      |        {} {}".format("+",thisSatellite))
-
-    def OrderingPlanets(self):
-        temp_list = list()
-        for thisStar in self.Star_list:             # for each stars
-            for thisOrbit in thisStar.Orbit_list:   # for each orbit
-                temp_list.append({                  # temporary list for prepare the sorting
-                    "Orbit":thisOrbit,              # object to sort
-                    "Distance":thisOrbit.OrbitDistance  # sorting argument
-                })
-            temp_list.sort(key=lambda x: x.get('Distance'))  # sorting regarding the distance
-            thisStar.Orbit_list = [el["Orbit"] for el in temp_list]

@@ -1,6 +1,8 @@
-from Functions.Functions import *
 import random as rd
+
 import numpy as np
+from Functions.RollingFunctions import *
+
 
 class Satellite:
     """
@@ -11,15 +13,14 @@ class Satellite:
     -   self.Distance: Distance par rapport à sa planète
     """
     def __init__(self,SatType,auto=True):
-        self.Composition = list()
+        self.Composition = []
         self.Type = SatType
         self.Size = int()
         self.Distance = int()
         if auto: self.Autogen()
 
     def __repr__(self):
-        txt = "{} at {} orbit radii".format(self.Type,self.Distance)
-        return txt
+        return f"{self.Type} at {self.Distance} orbit radii"
 
     def Autogen(self):
     #  self.Size
