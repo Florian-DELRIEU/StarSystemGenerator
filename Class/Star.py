@@ -1,8 +1,7 @@
 from Class.Orbit import *
 from Functions.RollingFunctions import *
 from Functions.Tables import *
-import random as rd
-import numpy as np
+
 
 class Star:
     """

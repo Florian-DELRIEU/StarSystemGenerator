@@ -1,4 +1,3 @@
-from Class.Orbit import Orbit
 from Class.Planet import Planet
 from Class.System import System
 from Functions.RollingFunctions import *

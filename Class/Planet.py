@@ -1,6 +1,3 @@
-import random as rd
-
-import numpy as np
 from Functions.OthersFunctions import setGravLock
 from Functions.RollingFunctions import *
 from Functions.Tables import *

@@ -2,8 +2,7 @@ from Class.Planet import Planet
 from Class.Star import Star
 from Functions.RollingFunctions import *
 from Functions.Tables import *
-import random as rd
-import numpy as np
+
 
 class System:
     """
